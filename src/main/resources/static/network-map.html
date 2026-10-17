@@ -1,0 +1,1341 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community Mesh | Network Map</title>
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        .profile-menu {
+    position: relative;
+    margin-left: 15px;
+}
+
+.profile-trigger {
+    background: transparent;
+    color: white;
+    border: 1px solid #31506d;
+    border-radius: 7px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 210px;
+    padding: 10px;
+    background: #0b1728;
+    border: 1px solid #31506d;
+    border-radius: 10px;
+    z-index: 2000;
+}
+
+.profile-dropdown.open {
+    display: block;
+}
+
+.profile-dropdown-head {
+    padding: 8px;
+    border-bottom: 1px solid #20384f;
+    margin-bottom: 6px;
+}
+
+.profile-dropdown-head strong,
+.profile-dropdown-head small {
+    display: block;
+}
+
+.profile-dropdown-head small {
+    color: #8397aa;
+    margin-top: 4px;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 9px 8px;
+    color: #b5c5d5;
+    text-decoration: none;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+    background: #14283c;
+    color: #00d9ff;
+}
+
+        
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #07111f;
+            color: white;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: #0b1728;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 30px;
+
+            border-bottom: 1px solid #20384f;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-right: 40px;
+        }
+
+        .logo span {
+            color: #00d9ff;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 20px;
+
+            list-style: none;
+
+            flex: 1;
+        }
+
+        nav ul a {
+            text-decoration: none;
+            color: #b5c5d5;
+
+            font-size: 14px;
+        }
+
+        nav ul a:hover,
+        nav ul .active {
+            color: #00d9ff;
+        }
+
+        .auth a {
+            text-decoration: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+
+            margin-left: 5px;
+        }
+
+        .login {
+            color: white;
+            border: 1px solid #31506d;
+        }
+
+        .signup {
+            background: #00c6e8;
+            color: #00131a;
+            font-weight: bold;
+        }
+
+
+        /* PAGE */
+
+        .page {
+            padding: 25px;
+        }
+
+        .heading {
+            margin-bottom: 18px;
+        }
+
+        .heading h2 {
+            font-size: 28px;
+        }
+
+        .heading h2 span {
+            color: #00d9ff;
+        }
+
+        .heading p {
+            color: #8397aa;
+            margin-top: 6px;
+        }
+
+
+        /* MAP */
+
+        .map-box {
+            position: relative;
+
+            width: 100%;
+            height: 650px;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            border: 1px solid #28455c;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /* NETWORK PANEL */
+
+        .network-panel {
+
+            position: absolute;
+
+            top: 20px;
+            left: 20px;
+
+            width: 230px;
+
+            padding: 16px;
+
+            background: rgba(5, 18, 30, 0.94);
+
+            border: 1px solid #294b63;
+
+            border-radius: 12px;
+
+            z-index: 1000;
+        }
+
+        .network-panel h3 {
+            color: #00d9ff;
+
+            margin-bottom: 13px;
+        }
+
+        .row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin: 9px 0;
+
+            color: #9db0c0;
+
+            font-size: 13px;
+        }
+
+        .row strong {
+            color: white;
+        }
+
+        .online {
+            color: #00e676 !important;
+        }
+
+
+        /* LEGEND */
+
+        .legend {
+
+            position: absolute;
+
+            right: 20px;
+            bottom: 20px;
+
+            width: 190px;
+
+            padding: 15px;
+
+            background: rgba(5, 18, 30, 0.94);
+
+            border: 1px solid #294b63;
+
+            border-radius: 12px;
+
+            z-index: 1000;
+        }
+
+        .legend h4 {
+            margin-bottom: 10px;
+        }
+
+        .legend-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin: 8px 0;
+
+            color: #b8c8d6;
+
+            font-size: 13px;
+        }
+
+        .dot {
+
+            width: 12px;
+            height: 12px;
+
+            border-radius: 50%;
+        }
+
+        .green {
+            background: #00e676;
+        }
+
+        .blue {
+            background: #00aaff;
+        }
+
+        .yellow {
+            background: #ffc107;
+        }
+
+        .red {
+            background: #ff5252;
+        }
+
+
+        /* STATUS */
+
+        .status {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-top: 18px;
+        }
+
+        .card {
+
+            background: #0b1a2a;
+
+            border: 1px solid #203a50;
+
+            padding: 18px;
+
+            border-radius: 12px;
+        }
+
+        .card strong {
+
+            display: block;
+
+            color: #00d9ff;
+
+            font-size: 25px;
+
+            margin-bottom: 5px;
+        }
+
+        .card span {
+
+            color: #8195a8;
+
+            font-size: 13px;
+        }
+
+
+        footer {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #667b8d;
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width: 900px) {
+
+            nav ul {
+                display: none;
+            }
+
+            .status {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .network-panel {
+                width: 200px;
+
+
+
+                
+            }
+        }  
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="logo">
+        Community<span>Mesh</span>
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="index.html">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="sos.html">
+                SOS
+            </a>
+        </li>
+
+        <li>
+            <a href="mesh.html">
+                Mesh Communication
+            </a>
+        </li>
+
+        <li>
+            <a
+                href="network-map.html"
+                class="active"
+            >
+                Network Map
+            </a>
+        </li>
+
+        <li>
+            <a href="incidents.html">
+                Incidents
+            </a>
+        </li>
+
+        <li>
+            <a href="response.html">
+                Rescue Tracking
+            </a>
+        </li>
+
+    </ul>
+
+
+    <div class="profile-menu">
+<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
+<div class="profile-dropdown" id="profileDropdown">
+<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+
+</div></div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+    <div class="heading">
+
+        <h2>
+            Community
+            <span>Network Map</span>
+        </h2>
+
+        <p>
+            Live visualization of community mesh nodes,
+            gateways and rescue teams.
+        </p>
+
+    </div>
+
+
+
+    <div class="map-box">
+
+
+        <!-- MAP -->
+
+        <div id="map"></div>
+
+
+
+        <!-- NETWORK STATUS -->
+
+        <div class="network-panel">
+
+            <h3>
+                Network Status
+            </h3>
+
+
+            <div class="row">
+
+                <span>
+                    Status
+                </span>
+
+                <strong class="online">
+                    ● Online
+                </strong>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Active Nodes
+                </span>
+
+                <strong>
+                    128
+                </strong>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Gateways
+                </span>
+
+                <strong>
+                    12
+                </strong>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Connectivity
+                </span>
+
+                <strong>
+                    98%
+                </strong>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Signal
+                </span>
+
+                <strong>
+                    Strong
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- LEGEND -->
+
+        <div class="legend">
+
+            <h4>
+                Map Legend
+            </h4>
+
+
+            <div class="legend-item">
+
+                <div class="dot green"></div>
+
+                Your Device
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <div class="dot blue"></div>
+
+                Mesh Node
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <div class="dot yellow"></div>
+
+                Gateway
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <div class="dot red"></div>
+
+                Rescue Team
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- STATUS CARDS -->
+
+    <div class="status">
+
+
+        <div class="card">
+
+            <strong>
+                128
+            </strong>
+
+            <span>
+                Active Nodes
+            </span>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                12
+            </strong>
+
+            <span>
+                Gateways
+            </span>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                98%
+            </strong>
+
+            <span>
+                Connectivity
+            </span>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                Strong
+            </strong>
+
+            <span>
+                Network Signal
+            </span>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+
+<footer>
+
+    © 2026 Community Mesh |
+    Emergency Communication Network
+
+</footer>
+
+
+
+<!-- LEAFLET JS -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+
+<script>
+
+
+/* ==========================================
+   CREATE MAP
+========================================== */
+
+
+/*
+   Starting location:
+   Mumbai
+
+   You can change these coordinates
+   to your project location.
+*/
+
+const center = [
+    19.0760,
+    72.8777
+];
+
+
+const map = L.map(
+    "map",
+    {
+        zoomControl: true
+    }
+).setView(
+    center,
+    14
+);
+
+
+/* ==========================================
+   OPEN STREET MAP
+========================================== */
+
+L.tileLayer(
+
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+    {
+
+        maxZoom: 19,
+
+        attribution:
+        '&copy; OpenStreetMap contributors'
+
+    }
+
+).addTo(map);
+
+
+
+/* ==========================================
+   CUSTOM MARKER
+========================================== */
+
+function createMarkerIcon(
+    color,
+    symbol
+) {
+
+    return L.divIcon({
+
+        className: "",
+
+        html: `
+
+            <div style="
+
+                width:42px;
+                height:42px;
+
+                border-radius:50%;
+
+                background:${color};
+
+                border:3px solid white;
+
+                display:flex;
+
+                align-items:center;
+
+                justify-content:center;
+
+                font-size:20px;
+
+                box-shadow:
+                0 0 15px ${color};
+
+            ">
+
+                ${symbol}
+
+            </div>
+
+        `,
+
+        iconSize: [42, 42],
+
+        iconAnchor: [21, 21]
+
+    });
+
+}
+
+
+
+/* ==========================================
+   YOUR DEVICE
+========================================== */
+
+const userLocation = [
+
+    19.0760,
+    72.8777
+
+];
+
+
+const userMarker = L.marker(
+
+    userLocation,
+
+    {
+
+        icon:
+        createMarkerIcon(
+            "#00e676",
+            "📱"
+        )
+
+    }
+
+).addTo(map);
+
+
+userMarker.bindPopup(`
+
+    <div>
+
+        <h3>
+            📱 Your Device
+        </h3>
+
+        <p>
+            Connected to Community Mesh
+        </p>
+
+        <p style="color:green;">
+            ● Online
+        </p>
+
+    </div>
+
+`);
+
+
+
+/* ==========================================
+   GATEWAY
+========================================== */
+
+const gateway = [
+
+    19.0785,
+    72.8815
+
+];
+
+
+const gatewayMarker = L.marker(
+
+    gateway,
+
+    {
+
+        icon:
+        createMarkerIcon(
+            "#ffc107",
+            "📡"
+        )
+
+    }
+
+).addTo(map);
+
+
+gatewayMarker.bindPopup(`
+
+    <h3>
+        📡 Main Gateway
+    </h3>
+
+    <p>
+        Central mesh gateway
+    </p>
+
+    <p style="color:green;">
+        ● Strong Connection
+    </p>
+
+`);
+
+
+
+/* ==========================================
+   MESH NODES
+========================================== */
+
+const nodes = [
+
+    {
+        position: [19.0810, 72.8750],
+        name: "Node 01"
+    },
+
+    {
+        position: [19.0710, 72.8700],
+        name: "Node 02"
+    },
+
+    {
+        position: [19.0840, 72.8890],
+        name: "Node 03"
+    },
+
+    {
+        position: [19.0680, 72.8850],
+        name: "Node 04"
+    },
+
+    {
+        position: [19.0730, 72.8950],
+        name: "Node 05"
+    }
+
+];
+
+
+nodes.forEach(
+
+    node => {
+
+        const marker =
+        L.marker(
+
+            node.position,
+
+            {
+
+                icon:
+                createMarkerIcon(
+                    "#00aaff",
+                    "📱"
+                )
+
+            }
+
+        ).addTo(map);
+
+
+        marker.bindPopup(`
+
+            <h3>
+                📱 ${node.name}
+            </h3>
+
+            <p>
+                Community Mesh Node
+            </p>
+
+            <p style="color:green;">
+                ● Connected
+            </p>
+
+        `);
+
+    }
+
+);
+
+
+
+/* ==========================================
+   RESCUE TEAM
+========================================== */
+
+const rescue = [
+
+    19.0670,
+    72.8770
+
+];
+
+
+const rescueMarker = L.marker(
+
+    rescue,
+
+    {
+
+        icon:
+        createMarkerIcon(
+            "#ff5252",
+            "🚑"
+        )
+
+    }
+
+).addTo(map);
+
+
+rescueMarker.bindPopup(`
+
+    <h3>
+        🚑 Rescue Team
+    </h3>
+
+    <p>
+        Emergency response unit
+    </p>
+
+    <p style="color:red;">
+        ● Active
+    </p>
+
+`);
+
+
+
+/* ==========================================
+   NETWORK CONNECTION LINES
+========================================== */
+
+
+/* Your Device → Gateway */
+
+L.polyline(
+
+    [
+        userLocation,
+        gateway
+    ],
+
+    {
+
+        color: "#00c6ff",
+
+        weight: 4,
+
+        opacity: 0.8,
+
+        dashArray: "10, 8"
+
+    }
+
+).addTo(map);
+
+
+
+/* Gateway → Mesh Nodes */
+
+nodes.forEach(
+
+    node => {
+
+        L.polyline(
+
+            [
+                gateway,
+                node.position
+            ],
+
+            {
+
+                color: "#00aaff",
+
+                weight: 3,
+
+                opacity: 0.7,
+
+                dashArray: "8, 7"
+
+            }
+
+        ).addTo(map);
+
+    }
+
+);
+
+
+
+/* Gateway → Rescue */
+
+L.polyline(
+
+    [
+        gateway,
+        rescue
+    ],
+
+    {
+
+        color: "#ff5252",
+
+        weight: 4,
+
+        opacity: 0.8,
+
+        dashArray: "10, 8"
+
+    }
+
+).addTo(map);
+
+
+
+/* ==========================================
+   DETECT CURRENT LOCATION
+========================================== */
+
+function locateUser() {
+
+    if (!navigator.geolocation) {
+
+        alert(
+            "Geolocation is not supported."
+        );
+
+        return;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const lat =
+                position.coords.latitude;
+
+            const lng =
+                position.coords.longitude;
+
+
+            map.setView(
+                [lat, lng],
+                16
+            );
+
+
+            L.marker(
+
+                [lat, lng],
+
+                {
+
+                    icon:
+                    createMarkerIcon(
+                        "#00e676",
+                        "📍"
+                    )
+
+                }
+
+            )
+
+            .addTo(map)
+
+            .bindPopup(
+
+                "📍 Your current location"
+
+            )
+
+            .openPopup();
+
+        },
+
+
+        function() {
+
+            alert(
+                "Location permission was denied."
+            );
+
+        }
+
+    );
+
+}
+
+
+
+/* ==========================================
+   ADD LOCATION BUTTON
+========================================== */
+
+const locationControl =
+L.control({
+
+    position: "topright"
+
+});
+
+
+locationControl.onAdd =
+function() {
+
+    const button =
+    L.DomUtil.create(
+        "button"
+    );
+
+
+    button.innerHTML =
+        "📍";
+
+
+    button.style.width =
+        "40px";
+
+
+    button.style.height =
+        "40px";
+
+
+    button.style.background =
+        "white";
+
+
+    button.style.border =
+        "2px solid #aaa";
+
+
+    button.style.borderRadius =
+        "5px";
+
+
+    button.style.cursor =
+        "pointer";
+
+
+    button.title =
+        "Find my location";
+
+
+    button.onclick =
+        locateUser;
+
+
+    return button;
+
+};
+
+
+locationControl.addTo(map);
+
+
+
+/* ==========================================
+   ONLINE / OFFLINE DETECTION
+========================================== */
+
+window.addEventListener(
+
+    "online",
+
+    function() {
+
+        console.log(
+            "Device is online"
+        );
+
+    }
+
+);
+
+
+window.addEventListener(
+
+    "offline",
+
+    function() {
+
+        console.log(
+            "Device is offline"
+        );
+
+    }
+
+);
+function toggleProfileMenu(event) {
+    event.stopPropagation();
+
+    const dropdown = document.getElementById("profileDropdown");
+    const trigger = document.querySelector(".profile-trigger");
+    const isOpen = dropdown.classList.toggle("open");
+
+    trigger.setAttribute("aria-expanded", String(isOpen));
+}
+
+document.addEventListener("click", function (event) {
+    const menu = document.querySelector(".profile-menu");
+    const dropdown = document.getElementById("profileDropdown");
+    const trigger = document.querySelector(".profile-trigger");
+
+    if (!menu.contains(event.target)) {
+        dropdown.classList.remove("open");
+        trigger.setAttribute("aria-expanded", "false");
+    }
+});
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        document.getElementById("profileDropdown").classList.remove("open");
+        document.querySelector(".profile-trigger")
+            .setAttribute("aria-expanded", "false");
+    }
+});
+
+
+</script>
+
+</body>
+</html>
+```

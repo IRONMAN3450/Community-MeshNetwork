@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Dashboard | Community Mesh</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        Community<span>Mesh</span>
+    </div>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="sos.html">SOS</a></li>
+        <li><a href="mesh.html">Mesh Communication</a></li>
+        <li><a href="network-map.html">Network Map</a></li>
+        <li><a href="incidents.html">Incidents</a></li>
+        <li><a href="response.html">Rescue Tracking</a></li>
+        
+    </ul>
+
+    <div class="profile-menu">
+<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
+<div class="profile-dropdown" id="profileDropdown">
+<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+<button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+</div></div>
+</nav>
+
+<main class="page">
+
+    <div class="section-title">
+        <h2>Unified <span>Disaster Dashboard</span></h2>
+        <p>Central command center for simultaneous disaster response.</p>
+    </div>
+
+    <div class="dashboard">
+
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <h3 id="incidents">4</h3>
+            <p>Active Incidents</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🆘</div>
+            <h3 id="sosCount">27</h3>
+            <p>Active SOS Requests</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📡</div>
+            <h3 id="nodes">128</h3>
+            <p>Active Mesh Nodes</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🚑</div>
+            <h3>18</h3>
+            <p>Teams Deployed</p>
+        </div>
+
+    </div>
+
+    <h2 class="subheading">Active Incidents</h2>
+
+    <div class="incident-grid">
+
+        <div class="incident-card flood">
+            <span class="severity high">HIGH</span>
+            <h3>🌊 Flood — Sector A</h3>
+            <p>Water levels rising rapidly.</p>
+            <strong>37 SOS requests</strong>
+        </div>
+
+        <div class="incident-card earthquake">
+            <span class="severity critical">CRITICAL</span>
+            <h3>🌍 Earthquake — Sector B</h3>
+            <p>Building damage reported.</p>
+            <strong>12 SOS requests</strong>
+        </div>
+
+        <div class="incident-card fire">
+            <span class="severity high">HIGH</span>
+            <h3>🔥 Fire — Sector C</h3>
+            <p>Emergency teams responding.</p>
+            <strong>8 SOS requests</strong>
+        </div>
+
+        <div class="incident-card rain">
+            <span class="severity medium">MEDIUM</span>
+            <h3>🌧 Heavy Rain — Sector D</h3>
+            <p>Monitoring weather conditions.</p>
+            <strong>4 SOS requests</strong>
+        </div>
+
+    </div>
+
+    <h2 class="subheading">Rescue Operations</h2>
+
+    <div class="progress-container">
+
+        <div>
+            <span>Received</span>
+            <strong>27</strong>
+        </div>
+
+        <div>
+            <span>Assigned</span>
+            <strong>19</strong>
+        </div>
+
+        <div>
+            <span>In Progress</span>
+            <strong>13</strong>
+        </div>
+
+        <div>
+            <span>Resolved</span>
+            <strong>31</strong>
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    © 2026 Community Mesh | Disaster Management System
+</footer>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

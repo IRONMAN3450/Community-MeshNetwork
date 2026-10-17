@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Mesh | Community Mesh</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        Community<span>Mesh</span>
+    </div>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="sos.html">SOS</a></li>
+        <li><a href="mesh.html">Mesh Communication</a></li>
+        <li><a href="network-map.html">Network Map</a></li>
+        <li><a href="incidents.html">Incidents</a></li>
+        <li><a href="response.html">Rescue Tracking</a></li>
+        
+    </ul>
+
+    <div class="profile-menu">
+<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
+<div class="profile-dropdown" id="profileDropdown">
+<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+<button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+</div></div>
+</nav>
+<main class="page">
+
+    <div class="section-title">
+        <h2>Offline <span>Mesh Communication</span></h2>
+        <p>Communicate even when internet infrastructure fails.</p>
+    </div>
+
+    <div class="mesh-container">
+
+        <div class="mesh-info">
+
+            <h3>Device-to-Device Communication</h3>
+
+            <p>
+                Messages can be relayed through nearby devices.
+                Each device can act as a node in the emergency network.
+            </p>
+
+            <ul>
+                <li>✓ No internet required</li>
+                <li>✓ Phone-to-phone communication</li>
+                <li>✓ Multi-hop message relay</li>
+                <li>✓ Emergency broadcast</li>
+                <li>✓ Message delivery tracking</li>
+            </ul>
+
+        </div>
+
+        <div class="chat-box">
+
+            <div class="chat-header">
+                📡 Mesh Communication
+                <span class="online">● ONLINE</span>
+            </div>
+
+            <div class="messages">
+
+                <div class="message received">
+                    <strong>Node A</strong>
+                    <p>Water needed in Sector A.</p>
+                    <small>Relay: Node 42 → Node 67</small>
+                </div>
+
+                <div class="message sent">
+                    <strong>You</strong>
+                    <p>Emergency team notified.</p>
+                    <small>Delivered • 3 hops</small>
+                </div>
+
+            </div>
+
+            <div class="quick-replies">
+                <button onclick="sendQuickReply('Need Medical Help')">
+                    Medical Help
+                </button>
+
+                <button onclick="sendQuickReply('Need Water')">
+                    Need Water
+                </button>
+
+                <button onclick="sendQuickReply('Safe')">
+                    I Am Safe
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div id="toast"></div>
+
+<footer>
+    © 2026 Community Mesh
+</footer>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

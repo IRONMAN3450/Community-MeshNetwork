@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incidents | Community Mesh</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        Community<span>Mesh</span>
+    </div>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="sos.html">SOS</a></li>
+        <li><a href="mesh.html">Mesh Communication</a></li>
+        <li><a href="network-map.html">Network Map</a></li>
+        <li><a href="incidents.html">Incidents</a></li>
+        <li><a href="response.html">Rescue Tracking</a></li>
+        
+    </ul>
+
+    <div class="profile-menu">
+<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
+<div class="profile-dropdown" id="profileDropdown">
+<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+<button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+</div></div>
+</nav>
+
+<main class="page">
+
+    <div class="section-title">
+        <h2>Multi-Incident <span>Alerts</span></h2>
+        <p>Monitor multiple disasters independently by sector.</p>
+    </div>
+
+    <div class="filters">
+
+        <button onclick="filterIncidents('all')">All</button>
+        <button onclick="filterIncidents('flood')">Flood</button>
+        <button onclick="filterIncidents('earthquake')">Earthquake</button>
+        <button onclick="filterIncidents('fire')">Fire</button>
+        <button onclick="filterIncidents('cyclone')">Cyclone</button>
+
+    </div>
+
+    <div class="incident-grid">
+
+        <div class="incident-card flood incident">
+            <span class="severity critical">CRITICAL</span>
+            <h3>🌊 Flood</h3>
+
+            <p>
+                Sector A — Riverside District
+            </p>
+
+            <hr>
+
+            <p>
+                Water level: <strong>Dangerous</strong>
+            </p>
+
+            <p>
+                Active SOS: <strong>37</strong>
+            </p>
+
+            <p>
+                Response teams: <strong>6</strong>
+            </p>
+
+            <button onclick="showMessage('Flood incident opened')">
+                View Incident
+            </button>
+        </div>
+
+
+        <div class="incident-card earthquake incident">
+            <span class="severity critical">CRITICAL</span>
+            <h3>🌍 Earthquake</h3>
+
+            <p>
+                Sector B — Central District
+            </p>
+
+            <hr>
+
+            <p>
+                Magnitude: <strong>6.2</strong>
+            </p>
+
+            <p>
+                Active SOS: <strong>12</strong>
+            </p>
+
+            <p>
+                Response teams: <strong>8</strong>
+            </p>
+
+            <button onclick="showMessage('Earthquake incident opened')">
+                View Incident
+            </button>
+        </div>
+
+
+        <div class="incident-card fire incident">
+            <span class="severity high">HIGH</span>
+            <h3>🔥 Fire</h3>
+
+            <p>
+                Sector C — Industrial Area
+            </p>
+
+            <hr>
+
+            <p>
+                Status: <strong>Spreading</strong>
+            </p>
+
+            <p>
+                Active SOS: <strong>8</strong>
+            </p>
+
+            <p>
+                Fire teams: <strong>4</strong>
+            </p>
+
+            <button onclick="showMessage('Fire incident opened')">
+                View Incident
+            </button>
+        </div>
+
+
+        <div class="incident-card cyclone incident">
+            <span class="severity medium">MEDIUM</span>
+            <h3>🌀 Cyclone</h3>
+
+            <p>
+                Sector D — Coastal Area
+            </p>
+
+            <hr>
+
+            <p>
+                Wind: <strong>110 km/h</strong>
+            </p>
+
+            <p>
+                Active SOS: <strong>5</strong>
+            </p>
+
+            <p>
+                Shelters: <strong>12</strong>
+            </p>
+
+            <button onclick="showMessage('Cyclone incident opened')">
+                View Incident
+            </button>
+        </div>
+
+    </div>
+
+</main>
+
+<div id="toast"></div>
+
+<footer>
+    © 2026 Community Mesh
+</footer>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

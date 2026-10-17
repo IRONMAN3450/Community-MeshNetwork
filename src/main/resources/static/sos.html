@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency SOS | Community Mesh</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        Community<span>Mesh</span>
+    </div>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="sos.html">SOS</a></li>
+        <li><a href="mesh.html">Mesh Communication</a></li>
+        <li><a href="network-map.html">Network Map</a></li>
+        <li><a href="incidents.html">Incidents</a></li>
+        <li><a href="response.html">Rescue Tracking</a></li>
+       
+    </ul>
+
+    <div class="profile-menu">
+<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
+<div class="profile-dropdown" id="profileDropdown">
+<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+<button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+</div></div>
+</nav>
+
+<main class="page sos-page">
+
+    <div class="section-title">
+        <h2>Emergency <span>SOS</span></h2>
+        <p>Broadcast an emergency request to nearby mesh nodes.</p>
+    </div>
+
+    <div class="sos-panel">
+
+        <h3>What type of emergency?</h3>
+
+        <div class="type-grid">
+
+            <button class="type-btn" onclick="selectEmergency('Medical')">
+                🏥 Medical
+            </button>
+
+            <button class="type-btn" onclick="selectEmergency('Trapped')">
+                🧱 Trapped
+            </button>
+
+            <button class="type-btn" onclick="selectEmergency('Evacuation')">
+                🚨 Evacuation
+            </button>
+
+            <button class="type-btn" onclick="selectEmergency('Missing Person')">
+                👤 Missing Person
+            </button>
+
+        </div>
+
+        <p id="selectedType" class="selected-type">
+            Select an emergency type.
+        </p>
+
+        <button class="sos-button" onclick="sendSOS()">
+            SOS
+        </button>
+
+        <p class="warning">
+            Pressing SOS will broadcast your emergency request
+            to nearby Community Mesh nodes.
+        </p>
+
+    </div>
+
+</main>
+
+<div id="toast"></div>
+
+<footer>
+    © 2026 Community Mesh
+</footer>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

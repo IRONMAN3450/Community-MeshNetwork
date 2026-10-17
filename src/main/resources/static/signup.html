@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | Community Mesh</title>
+
+    <style>
+        /* =========================================================
+   COMMUNITY MESH - SIGN UP PAGE CSS
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    color: #ffffff;
+    background: #07131f;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+nav {
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+
+    padding: 15px 4%;
+
+    background: rgba(3, 17, 29, 0.96);
+
+    backdrop-filter: blur(12px);
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* LOGO */
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #00e5ff;
+
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #ff4d4d;
+}
+
+
+/* NAVIGATION LINKS */
+
+nav ul {
+    list-style: none;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-left: 35px;
+
+    flex: 1;
+}
+
+nav ul li a {
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #00e5ff;
+}
+
+
+/* =========================================================
+   LOGIN / SIGNUP NAVIGATION BUTTONS
+   ========================================================= */
+
+.auth-buttons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-left: 15px;
+}
+
+.auth-buttons a {
+    text-decoration: none;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+
+/* LOGIN */
+
+.login-nav {
+    color: #00e5ff;
+
+    background: rgba(0, 229, 255, 0.05);
+
+    border: 1px solid #00e5ff;
+}
+
+.login-nav:hover {
+    background: #00e5ff;
+
+    color: #03111d;
+}
+
+
+/* ACTIVE SIGNUP */
+
+.active-signup {
+    color: white;
+
+    background: #ff3b3b;
+
+    border: 1px solid #ff3b3b;
+
+    box-shadow:
+        0 0 18px rgba(255, 59, 59, 0.25);
+}
+
+.active-signup:hover {
+    background: #ff1717;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   SIGNUP PAGE BACKGROUND
+   ========================================================= */
+
+.auth-page {
+
+    min-height: 100vh;
+
+    padding-top: 120px;
+
+    padding-bottom: 70px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+
+        linear-gradient(
+            rgba(3, 16, 27, 0.88),
+            rgba(5, 24, 38, 0.96)
+        ),
+
+        url("https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=2000&q=80");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-attachment: fixed;
+}
+
+
+/* =========================================================
+   SIGNUP CARD
+   ========================================================= */
+
+.auth-card {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    padding: 40px;
+
+    background:
+        rgba(5, 24, 38, 0.92);
+
+    border:
+        1px solid rgba(0, 229, 255, 0.25);
+
+    border-radius: 18px;
+
+    box-shadow:
+
+        0 20px 60px rgba(0, 0, 0, 0.55),
+
+        0 0 35px rgba(0, 229, 255, 0.08);
+
+    backdrop-filter: blur(15px);
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.auth-logo {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(0, 229, 255, 0.1);
+
+    border:
+        1px solid #00e5ff;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.auth-card h1 {
+
+    text-align: center;
+
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+
+    text-align: center;
+
+    color: #9fb4c2;
+
+    margin-bottom: 28px;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   FORM ROW
+   ========================================================= */
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.form-group {
+
+    margin-bottom: 18px;
+}
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #d5e5ed;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.form-group input,
+.form-group select {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 8px;
+
+    color: white;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+
+/* INPUT FOCUS */
+
+.form-group input:focus,
+.form-group select:focus {
+
+    border-color: #00e5ff;
+
+    background:
+        rgba(0, 229, 255, 0.04);
+
+    box-shadow:
+        0 0 12px rgba(0, 229, 255, 0.15);
+}
+
+
+/* PLACEHOLDER */
+
+.form-group input::placeholder {
+
+    color: #718894;
+}
+
+
+/* SELECT */
+
+.form-group select {
+
+    cursor: pointer;
+
+    appearance: auto;
+}
+
+.form-group select option {
+
+    background: #07131f;
+
+    color: white;
+}
+
+
+/* =========================================================
+   PASSWORD FIELD
+   ========================================================= */
+
+.password-hint {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #718894;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   TERMS AND CONDITIONS
+   ========================================================= */
+
+.terms {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin: 8px 0 22px;
+
+    color: #9fb4c2;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.terms input {
+
+    width: 16px;
+
+    height: 16px;
+
+    margin-top: 2px;
+
+    flex-shrink: 0;
+
+    accent-color: #00e5ff;
+
+    cursor: pointer;
+}
+
+.terms a {
+
+    color: #00e5ff;
+
+    text-decoration: none;
+}
+
+.terms a:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   CREATE ACCOUNT BUTTON
+   ========================================================= */
+
+.auth-submit {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #ff3b3b;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 0 20px rgba(255, 59, 59, 0.15);
+}
+
+.auth-submit:hover {
+
+    background: #ff1717;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(255, 59, 59, 0.3);
+}
+
+.auth-submit:active {
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   LOGIN LINK
+   ========================================================= */
+
+.switch-auth {
+
+    text-align: center;
+
+    color: #9fb4c2;
+
+    margin-top: 22px;
+
+    font-size: 14px;
+}
+
+.switch-auth a {
+
+    color: #00e5ff;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.switch-auth a:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   SUCCESS / ERROR MESSAGE
+   ========================================================= */
+
+#message {
+
+    display: none;
+
+    padding: 12px 15px;
+
+    margin-bottom: 18px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    background:
+        rgba(0, 229, 160, 0.1);
+
+    border:
+        1px solid rgba(0, 229, 160, 0.3);
+
+    color: #00e5a0;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    nav ul {
+
+        gap: 10px;
+
+        margin-left: 20px;
+    }
+
+    nav ul li a {
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    nav {
+
+        padding: 14px 5%;
+    }
+
+    nav ul {
+
+        display: none;
+    }
+
+    .auth-buttons {
+
+        margin-left: auto;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .auth-page {
+
+        padding-top: 100px;
+
+        padding-left: 15px;
+
+        padding-right: 15px;
+
+        align-items: flex-start;
+    }
+
+    .auth-card {
+
+        padding: 30px 22px;
+
+        margin-top: 20px;
+    }
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+    .auth-card h1 {
+
+        font-size: 28px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .logo {
+
+        font-size: 19px;
+    }
+
+    .auth-buttons a {
+
+        padding: 7px 9px;
+
+        font-size: 11px;
+    }
+
+    .auth-card {
+
+        padding: 25px 18px;
+    }
+
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+                    rgba(3,16,27,0.88),
+                    rgba(5,24,38,0.95)
+                ),
+
+                url("https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+
+            background-position: center;
+
+            padding: 30px 15px;
+        }
+
+        .container {
+
+            width: 100%;
+
+            max-width: 500px;
+        }
+
+        .logo {
+
+            text-align: center;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+        }
+
+        .logo-main {
+
+            color: #00e5ff;
+        }
+
+        .logo span {
+
+            color: #ff4d4d;
+        }
+
+        .signup-card {
+
+            padding: 40px;
+
+            background: rgba(5,24,38,0.90);
+
+            border:
+
+                1px solid
+
+                rgba(0,229,255,0.25);
+
+            border-radius: 18px;
+
+            box-shadow:
+
+                0 20px 60px rgba(0,0,0,0.5),
+
+                0 0 30px rgba(0,229,255,0.08);
+
+            backdrop-filter: blur(15px);
+        }
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 32px;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #9fb4c2;
+
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+        }
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #d5e5ed;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 13px;
+
+            background:
+
+                rgba(255,255,255,0.05);
+
+            border:
+
+                1px solid
+
+                rgba(255,255,255,0.15);
+
+            border-radius: 8px;
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+
+            border-color: #00e5ff;
+
+            box-shadow:
+
+                0 0 12px
+
+                rgba(0,229,255,0.15);
+        }
+
+        select option {
+
+            background: #07131f;
+
+            color: white;
+        }
+
+        .terms {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: flex-start;
+
+            margin: 10px 0 22px;
+
+            color: #9fb4c2;
+
+            font-size: 13px;
+        }
+
+        .terms input {
+
+            width: auto;
+
+            margin-top: 3px;
+        }
+
+        .terms a {
+
+            color: #00e5ff;
+
+            text-decoration: none;
+        }
+
+        .signup-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #ff3b3b;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .signup-btn:hover {
+
+            background: #ff1717;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+
+                0 8px 25px
+
+                rgba(255,59,59,0.3);
+        }
+
+        .login {
+
+            text-align: center;
+
+            color: #9fb4c2;
+
+            margin-top: 22px;
+        }
+
+        .login a {
+
+            color: #00e5ff;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .back-home {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #9fb4c2;
+
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+
+            color: #00e5ff;
+        }
+
+        #message {
+
+            display: none;
+
+            padding: 12px;
+
+            margin-bottom: 18px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            background:
+
+                rgba(0,229,160,0.1);
+
+            border:
+
+                1px solid
+
+                rgba(0,229,160,0.3);
+
+            color: #00e5a0;
+        }
+
+        @media(max-width:600px) {
+
+            .signup-card {
+
+                padding: 30px 20px;
+            }
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+
+        <span class="logo-main">
+            Community
+        </span><span>Mesh</span>
+
+    </div>
+
+
+    <div class="signup-card">
+
+        <h1>
+            Create Account
+        </h1>
+
+        <p class="subtitle">
+            Join your community's emergency network.
+        </p>
+
+
+        <div id="message"></div>
+
+
+        <form onsubmit="signupUser(event)">
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="firstName"
+                        placeholder="First name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lastName"
+                        placeholder="Last name"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="+91 XXXXX XXXXX"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    User Type
+                </label>
+
+                <select id="userType" required>
+
+                    <option value="">
+                        Select user type
+                    </option>
+
+                    <option value="citizen">
+                        Citizen
+                    </option>
+
+                    <option value="volunteer">
+                        Volunteer
+                    </option>
+
+                    <option value="responder">
+                        Emergency Responder
+                    </option>
+
+                    <option value="admin">
+                        Disaster Management Officer
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create password"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm password"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <label class="terms">
+
+                <input
+                    type="checkbox"
+                    required
+                >
+
+                <span>
+                    I agree to the Community Mesh
+                    <a href="#">Terms</a>
+                    and
+                    <a href="#">Privacy Policy</a>.
+                </span>
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="signup-btn"
+            >
+                CREATE ACCOUNT
+            </button>
+
+        </form>
+
+
+        <div class="login">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="index.html"
+        class="back-home"
+    >
+        ← Back to Community Mesh
+    </a>
+
+</div>
+    
+
+</main>
+
+<script>
+async function signupUser(event) {
+ event.preventDefault();
+ const firstName=document.getElementById("firstName").value.trim();
+ const lastName=document.getElementById("lastName").value.trim();
+ const email=document.getElementById("email").value.trim().toLowerCase();
+ const phone=document.getElementById("phone").value.trim();
+ const userType=document.getElementById("userType").value;
+ const password=document.getElementById("password").value;
+ const confirmPassword=document.getElementById("confirmPassword").value;
+ const message=document.getElementById("message");
+ if(password!==confirmPassword){message.innerText="Passwords do not match.";message.style.display="block";return;}
+ try {
+  const response=await fetch("/api/accounts/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({firstName,lastName,email,phone,userType,password})});
+  const account=await response.json();
+  if(!response.ok){message.innerText=account.message||"Could not create account.";message.style.display="block";return;}
+  const users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}");
+  users[account.email]=account;
+  localStorage.setItem("communityMeshUsers",JSON.stringify(users));
+ } catch(error) { message.innerText="Could not reach the server. Please make sure the application is running.";message.style.display="block";return; }
+ localStorage.setItem("communityMeshCurrentUser",email);
+ message.innerText="Account created! Opening your profile...";
+ message.style.display="block";setTimeout(()=>location.href="profile.html",700);
+}
+</script>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

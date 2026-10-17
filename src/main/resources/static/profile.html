@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | Community Mesh</title><link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav>
+  <div class="logo">Community<span>Mesh</span></div>
+  <ul>
+    <li><a href="index.html">Home</a></li><li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="sos.html">SOS</a></li><li><a href="mesh.html">Mesh Communication</a></li>
+    <li><a href="network-map.html">Network Map</a></li><li><a href="incidents.html">Incidents</a></li>
+    <li><a href="response.html">Rescue Tracking</a></li>
+  </ul>
+  <div class="profile-menu">
+    <button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
+    <div class="profile-dropdown" id="profileDropdown">
+      <div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+      <a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a>
+      <a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+      <button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+    </div>
+  </div>
+</nav>
+<main class="page profile-page">
+  <div class="section-title"><h2>My <span>Profile</span></h2><p>View your Community Mesh account details.</p></div>
+  <section class="profile-card">
+    <div class="profile-big-avatar">👤</div><h2 id="profileName">Guest User</h2><p id="profileStatus" class="profile-status">You are not logged in.</p>
+    <div class="profile-detail"><span>Full name</span><strong id="profileFullName">—</strong></div>
+    <div class="profile-detail"><span>Email address</span><strong id="profileEmail">—</strong></div>
+    <div class="profile-detail"><span>Password</span><strong>•••••••• (protected)</strong></div>
+    <p class="profile-note">For your security, this page never displays or stores your password as readable text. Use the login form to enter your password.</p>
+    <div class="profile-actions"><a class="btn secondary" href="login.html">Login</a><button class="btn primary" id="profileLogout" onclick="logoutUser()">Logout</button></div>
+  </section>
+</main>
+<div id="toast"></div><footer>© 2026 Community Mesh</footer>
+<script src="/js/script.js"></script>
+</body></html>

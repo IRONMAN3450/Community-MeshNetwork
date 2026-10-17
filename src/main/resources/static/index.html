@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Mesh | Disaster Management</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        Community<span>&nbsp;&nbsp;Mesh</span>
+    </div>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="sos.html">SOS</a></li>
+        <li><a href="mesh.html">Mesh Communication</a></li>
+        <li><a href="network-map.html">Network Map</a></li>
+        <li><a href="incidents.html">Incidents</a></li>
+        <li><a href="response.html">Rescue Tracking</a></li>
+      
+    </ul>
+
+   <div class="profile-menu" id="profileMenu">
+    <button
+        class="profile-trigger"
+        id="profileTrigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="profileDropdown"
+    >
+        <span class="profile-avatar">👤</span>
+        <span class="profile-trigger-label">Account</span>
+        ▾
+    </button>
+
+    <div class="profile-dropdown" id="profileDropdown" hidden>
+        <div class="profile-dropdown-head">
+            <strong id="menuUserName">My Account</strong>
+            <small id="menuUserEmail">Not logged in</small>
+        </div>
+
+        <a href="profile.html">👤 My Profile</a>
+        <a href="login.html" data-auth-link="login">↪ Login</a>
+        <a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+        <button type="button" id="logoutButton" hidden>
+            ⇥ Logout
+        </button>
+    </div>
+</div>
+</nav>
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            ⚠ DISASTER RESPONSE NETWORK
+        </div>
+
+        <h1>
+            Connecting Communities
+            <br>
+            <span>When Everything Goes Offline.</span>
+        </h1>
+
+        <p>
+            Community Mesh is a decentralized disaster-management
+            platform designed to keep communities connected during
+            earthquakes, floods, fires, cyclones and network outages.
+        </p>
+
+        <div class="buttons">
+
+            <a href="dashboard.html" class="btn primary">
+                Open Dashboard
+            </a>
+
+            <a href="mesh.html" class="btn secondary">
+                Explore Mesh Network
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section>
+
+    <div class="section-title">
+
+        <h2>Six Core <span>Features</span></h2>
+
+        <p>
+            A complete disaster-management ecosystem.
+        </p>
+
+    </div>
+
+    <div class="feature-grid">
+
+        <a href="sos.html" class="feature-card">
+            <div>🆘</div>
+            <h3>Emergency SOS</h3>
+            <p>
+                Send emergency requests with disaster type tagging.
+            </p>
+        </a>
+
+        <a href="mesh.html" class="feature-card">
+            <div>📡</div>
+            <h3>Offline Mesh Communication</h3>
+            <p>
+                Communicate device-to-device even without internet.
+            </p>
+        </a>
+
+        <a href="network-map.html" class="feature-card">
+            <div>🗺️</div>
+            <h3>Mesh Network Map</h3>
+            <p>
+                Visualize nodes, gateways and connection strength.
+            </p>
+        </a>
+
+        <a href="incidents.html" class="feature-card">
+            <div>⚠️</div>
+            <h3>Multi-Incident Alerts</h3>
+            <p>
+                Track multiple disasters independently by sector.
+            </p>
+        </a>
+
+        <a href="response.html" class="feature-card">
+            <div>🚑</div>
+            <h3>Rescue Tracking</h3>
+            <p>
+                Track every SOS from received to resolved.
+            </p>
+        </a>
+
+        <a href="dashboard.html" class="feature-card">
+            <div>📊</div>
+            <h3>Unified Dashboard</h3>
+            <p>
+                Manage incidents, SOS, resources and network health.
+            </p>
+        </a>
+
+    </div>
+
+</section>
+
+<footer>
+    <p>
+        © 2026 <strong>Community Mesh</strong> |
+        Disaster Management System
+    </p>
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>

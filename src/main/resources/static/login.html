@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Community Mesh</title>
+
+    <style>
+        /* ================= NAVBAR ================= */
+
+nav {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 15px 4%;
+
+    background:
+        rgba(3,17,29,0.96);
+
+    backdrop-filter: blur(12px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.1);
+}
+
+.logo {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: #00e5ff;
+
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #ff4d4d;
+}
+
+nav ul {
+
+    list-style: none;
+
+    display: flex;
+
+    gap: 20px;
+
+    margin-left: 40px;
+
+    flex: 1;
+}
+
+nav ul li a {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+
+    color: #00e5ff;
+}
+
+
+/* ================= AUTH NAV ================= */
+
+.auth-buttons {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-left: 15px;
+}
+
+.auth-buttons a {
+
+    text-decoration: none;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.active-login {
+
+    color: #03111d;
+
+    background: #00e5ff;
+}
+
+.signup-nav {
+
+    color: white;
+
+    background: #ff3b3b;
+}
+
+.signup-nav:hover {
+
+    background: #ff1717;
+}
+
+
+/* ================= AUTH PAGE ================= */
+
+.auth-page {
+
+    min-height: 100vh;
+
+    padding-top: 120px;
+
+    padding-bottom: 60px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+
+        linear-gradient(
+            rgba(3,16,27,0.88),
+            rgba(5,24,38,0.96)
+        ),
+
+        url("https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=2000&q=80");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+
+/* ================= LOGIN CARD ================= */
+
+.auth-card {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    padding: 40px;
+
+    background:
+
+        rgba(5,24,38,0.92);
+
+    border:
+
+        1px solid
+        rgba(0,229,255,0.25);
+
+    border-radius: 18px;
+
+    box-shadow:
+
+        0 20px 60px
+        rgba(0,0,0,0.5),
+
+        0 0 30px
+        rgba(0,229,255,0.08);
+
+    backdrop-filter: blur(15px);
+}
+
+.auth-logo {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(0,229,255,0.1);
+
+    border: 1px solid #00e5ff;
+
+    font-size: 30px;
+
+    margin-bottom: 20px;
+}
+
+.auth-card h1 {
+
+    text-align: center;
+
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+
+    text-align: center;
+
+    color: #9fb4c2;
+
+    margin-bottom: 30px;
+}
+
+
+/* ================= FORM ================= */
+
+.form-group {
+
+    margin-bottom: 20px;
+}
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #d5e5ed;
+
+    font-weight: bold;
+}
+
+.form-group input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    border-radius: 8px;
+
+    color: white;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.form-group input:focus {
+
+    border-color: #00e5ff;
+
+    box-shadow:
+        0 0 12px
+        rgba(0,229,255,0.15);
+}
+
+
+/* ================= OPTIONS ================= */
+
+.login-options {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    font-size: 13px;
+
+    color: #9fb4c2;
+}
+
+.login-options a {
+
+    color: #00e5ff;
+
+    text-decoration: none;
+}
+
+
+/* ================= BUTTON ================= */
+
+.auth-submit {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #ff3b3b;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.auth-submit:hover {
+
+    background: #ff1717;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(255,59,59,0.3);
+}
+
+
+/* ================= DIVIDER ================= */
+
+.divider {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 25px 0;
+
+    color: #718894;
+}
+
+.divider::before,
+.divider::after {
+
+    content: "";
+
+    height: 1px;
+
+    background:
+        rgba(255,255,255,0.1);
+
+    flex: 1;
+}
+
+
+/* ================= SWITCH ================= */
+
+.switch-auth {
+
+    text-align: center;
+
+    color: #9fb4c2;
+}
+
+.switch-auth a {
+
+    color: #00e5ff;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1100px) {
+
+    nav ul {
+        gap: 10px;
+        margin-left: 20px;
+    }
+
+    nav ul li a {
+        font-size: 12px;
+    }
+
+}
+
+@media(max-width:800px) {
+
+    nav ul {
+        display: none;
+    }
+
+    .auth-buttons {
+        margin-left: auto;
+    }
+
+}
+
+@media(max-width:500px) {
+
+    nav {
+        padding: 14px 5%;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .auth-buttons a {
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+
+    .auth-card {
+        margin: 20px;
+        padding: 30px 22px;
+    }
+
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    rgba(3, 16, 27, 0.88),
+                    rgba(5, 24, 38, 0.95)
+                ),
+                url("https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .logo span {
+            color: #ff4d4d;
+        }
+
+        .logo-main {
+            color: #00e5ff;
+        }
+
+        .login-card {
+            padding: 40px;
+
+            background: rgba(5, 24, 38, 0.88);
+
+            border: 1px solid rgba(0, 229, 255, 0.25);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.5),
+                0 0 30px rgba(0,229,255,0.08);
+
+            backdrop-filter: blur(15px);
+        }
+
+        .login-card h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9fb4c2;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d5e5ed;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+
+            background: rgba(255,255,255,0.05);
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            border-radius: 8px;
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #00e5ff;
+
+            box-shadow:
+                0 0 12px rgba(0,229,255,0.15);
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            font-size: 14px;
+        }
+
+        .remember {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: #9fb4c2;
+        }
+
+        .remember input {
+            width: auto;
+        }
+
+        .forgot {
+            color: #00e5ff;
+            text-decoration: none;
+        }
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #ff3b3b;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #ff1717;
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(255,59,59,0.3);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 25px 0;
+
+            color: #718894;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .signup {
+            text-align: center;
+            color: #9fb4c2;
+        }
+
+        .signup a {
+            color: #00e5ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-home {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #9fb4c2;
+
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+            color: #00e5ff;
+        }
+
+        #message {
+            display: none;
+
+            margin-bottom: 20px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            background: rgba(0,229,160,0.1);
+
+            border: 1px solid rgba(0,229,160,0.3);
+
+            color: #00e5a0;
+
+            text-align: center;
+        }
+
+        @media(max-width:500px) {
+
+            .login-card {
+                padding: 30px 22px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="logo">
+        <span class="logo-main">Community</span><span>Mesh</span>
+    </div>
+
+    <div class="login-card">
+
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+            Sign in to access the disaster management system.
+        </p>
+
+        <div id="message"></div>
+
+        <form onsubmit="loginUser(event)">
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+            <div class="options">
+
+                <label class="remember">
+
+                    <input type="checkbox">
+
+                    Remember me
+
+                </label>
+
+                <a href="#" class="forgot">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <button class="login-btn" type="submit">
+                LOGIN
+            </button>
+
+        </form>
+
+        <div class="divider">
+            OR
+        </div>
+
+        <div class="signup">
+
+            Don't have an account?
+
+            <a href="signup.html">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+    <a href="index.html" class="back-home">
+        ← Back to Community Mesh
+    </a>
+
+</div>
+
+</main>
+<script>
+async function loginUser(event) {
+ event.preventDefault();
+ const email=document.getElementById("email").value.trim().toLowerCase();
+ const password=document.getElementById("password").value;
+ const message=document.getElementById("message");
+ try {
+  const response=await fetch("/api/accounts/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+  const account=await response.json();
+  if(!response.ok){message.innerText=account.message||"Email/password is incorrect, or no account exists yet.";message.style.display="block";return;}
+  const users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}");
+  users[account.email]=account;
+  localStorage.setItem("communityMeshUsers",JSON.stringify(users));
+ } catch(error) { message.innerText="Could not reach the server. Please make sure the application is running.";message.style.display="block";return; }
+ localStorage.setItem("communityMeshCurrentUser",email);
+ message.innerText="Login successful! Opening your profile...";message.style.display="block";
+ setTimeout(()=>location.href="profile.html",700);
+}
+</script>
+
+<script src="/js/script.js"></script>
+</body>
+</html>
