@@ -178,7 +178,7 @@ window.addEventListener("load", () => {
 function toggleProfileMenu(event){
   event.stopPropagation();
   const menu=document.getElementById("profileDropdown");
-  const trigger=document.querySelector(".profile-trigger");
+  const trigger=event.currentTarget || document.querySelector(".profile-trigger");
   if(!menu)return;
   const open=menu.classList.toggle("open");
   if(trigger)trigger.setAttribute("aria-expanded",String(open));
@@ -192,6 +192,13 @@ document.addEventListener("click",function(event){
     if(trigger)trigger.setAttribute("aria-expanded","false");
   }
 });
+document.addEventListener("keydown",function(event){
+  if(event.key!=="Escape")return;
+  const menu=document.getElementById("profileDropdown");
+  const trigger=document.querySelector(".profile-trigger");
+  if(menu)menu.classList.remove("open");
+  if(trigger)trigger.setAttribute("aria-expanded","false");
+});
 function logoutUser(){
   localStorage.removeItem("communityMeshCurrentUser");
   showMessage("You have been logged out.");
@@ -199,7 +206,8 @@ function logoutUser(){
 }
 function refreshProfileMenu(){
   const email=localStorage.getItem("communityMeshCurrentUser");
-  const users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}");
+  let users={};
+  try { users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}"); } catch(error) { users={}; }
   const user=email?users[email]:null;
   const name=user?`${user.firstName||""} ${user.lastName||""}`.trim():"My Account";
   const nameEl=document.getElementById("menuUserName");
@@ -221,5 +229,7 @@ function refreshProfileMenu(){
   if(pEmail)pEmail.textContent=user?user.email:"—";
   const profileLogout=document.getElementById("profileLogout");
   if(profileLogout)profileLogout.style.display=user?"inline-block":"none";
+  const profileLogin=document.getElementById("profileLogin");
+  if(profileLogin)profileLogin.style.display=user?"none":"inline-block";
 }
 document.addEventListener("DOMContentLoaded",refreshProfileMenu);
