@@ -201,8 +201,16 @@ document.addEventListener("keydown",function(event){
 });
 function logoutUser(){
   localStorage.removeItem("communityMeshCurrentUser");
+  refreshProfileMenu();
+  const menu=document.getElementById("profileDropdown");
+  const trigger=document.querySelector(".profile-trigger");
+  if(menu)menu.classList.remove("open");
+  if(trigger)trigger.setAttribute("aria-expanded","false");
   showMessage("You have been logged out.");
-  setTimeout(()=>location.href="index.html",450);
+  const path=window.location.pathname;
+  if(!path.endsWith("index.html")&&path!=="/"){
+    setTimeout(()=>location.href="index.html",450);
+  }
 }
 function refreshProfileMenu(){
   const email=localStorage.getItem("communityMeshCurrentUser");
