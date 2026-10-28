@@ -1,0 +1,80 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Privacy Policy | Community Mesh</title><style>
+:root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #1b2b36; background: #eef3f6; }
+body { margin: 0; line-height: 1.65; }
+header { padding: 22px max(24px, calc((100% - 850px) / 2)); background: #071d2c; color: white; }
+header a { color: #00d9f5; text-decoration: none; }
+main { max-width: 850px; margin: 32px auto; padding: 36px 44px; background: white; border-radius: 12px; box-shadow: 0 8px 28px #102b3a1a; }
+h1, h2, h3 { line-height: 1.25; color: #102c3d; }
+h1 { margin-top: 0; }
+blockquote { margin-left: 0; padding: 12px 18px; border-left: 4px solid #00b9d3; background: #effafd; }
+code { background: #eef2f5; padding: 2px 5px; border-radius: 4px; }
+a { color: #007f9a; }
+@media (max-width: 600px) { main { margin: 12px; padding: 24px 20px; } }
+</style></head><body><header><a href="/signup.html">? Back to sign up</a></header><main><h1>Community Mesh — Privacy Policy</h1>
+<p><strong>Draft for review</strong><br />
+<strong>Prepared:</strong> 28 October 2026<br />
+<strong>Effective date:</strong> [date this policy is published]<br />
+<strong>Data controller / operator:</strong> [legal name of person or organisation operating Community Mesh]<br />
+<strong>Privacy contact:</strong> [name or role, email, and postal address]<br />
+<strong>Grievance contact:</strong> [contact and complaint process, if applicable]</p>
+<blockquote>
+<p>This is a project draft, not legal advice or a claim of legal compliance. Complete every bracketed item, confirm actual data flows and vendors, and obtain a legal review before collecting real user or emergency data. The Digital Personal Data Protection Act, 2023 and the Digital Personal Data Protection Rules, 2025 have staged commencement dates; check the provisions in force when the Service launches.</p>
+</blockquote>
+<h2>1. What this policy covers</h2>
+<p>This policy describes how the operator handles personal information when you use the Community Mesh website and, once enabled, its account, incident-reporting, SOS, location, and communication features (the <strong>Service</strong>).</p>
+<p>Community Mesh is a disaster-preparedness project. The current website includes demo interactions. In the code reviewed for this draft, the login and signup forms do not send credentials to a server or create accounts; SOS and quick-reply actions show simulated messages; the map page can request browser location only if the user chooses its location control. Confirm these facts against the deployed version before publication. If a backend, analytics, or external service receives information, update this policy to describe it accurately.</p>
+<h2>2. Information the live Service may handle</h2>
+<p>The operator should collect only what is needed for each feature. Depending on the features actually enabled, that may include:</p>
+<ul>
+<li><strong>Account details:</strong> first and last name, email address, phone number, selected account role, and authentication information. Passwords must be stored as a secure one-way hash, never as plain text.</li>
+<li><strong>Sign-in details:</strong> account identifier and, if social sign-in is enabled, the provider and provider account identifier and the profile details you authorise the provider to share. Do not collect or store a provider's client secret in the browser.</li>
+<li><strong>Emergency reports and messages:</strong> emergency category, message text, report time, status, and information needed to coordinate a response.</li>
+<li><strong>Location:</strong> precise location only when you choose a location-enabled feature and grant the browser permission, or when you include location in a report. Explain the sharing audience at the point of collection.</li>
+<li><strong>Technical and security records:</strong> information such as request time, IP address, browser/device details, and security logs if the deployed hosting or application actually records them. Confirm this with the hosting provider and configuration.</li>
+</ul>
+<p><strong>Do not publish this list unchanged until every item is confirmed.</strong> Remove any category the Service does not collect and add all actual categories, including cookies, analytics, maps, or hosting logs where applicable.</p>
+<h2>3. Why information is used</h2>
+<p>For a live Service, the operator may use relevant information to:</p>
+<ul>
+<li>create and manage accounts and authenticate users;</li>
+<li>receive, display, route, and track emergency reports or messages that the user asks to send;</li>
+<li>share an emergency report with the recipients shown to the user, such as designated responders or nearby network participants, where that feature is enabled;</li>
+<li>protect accounts and the Service, investigate abuse, and maintain service reliability;</li>
+<li>respond to support requests and meet applicable legal obligations.</li>
+</ul>
+<p>The operator should provide a clear notice and obtain any consent required for each purpose before processing personal information. Do not use emergency information for advertising or unrelated profiling.</p>
+<h2>4. When information is shared</h2>
+<p>The operator may share only information needed for the stated purpose:</p>
+<ul>
+<li><strong>With the audience for a feature:</strong> if you send a live SOS or message, the information shown in that feature's notice may be made available to the selected response team, authorised administrators, or participating mesh nodes. Define the exact audience here before launch: <strong>[describe recipients, visibility, and whether content is relayed publicly or peer-to-peer]</strong>.</li>
+<li><strong>With service providers:</strong> hosting, database, email/SMS, mapping, or authentication providers may process information for the operator. List the providers and link their privacy notices: <strong>[provider names, purposes, and links]</strong>.</li>
+<li><strong>For legal or safety reasons:</strong> when disclosure is required by law or reasonably necessary to address an immediate safety issue, subject to applicable law.</li>
+</ul>
+<p>The operator does not sell personal information. <strong>[Confirm this statement before publishing.]</strong></p>
+<h2>5. Location and emergency information</h2>
+<p>Location is sensitive in a disaster-response context. Ask for it only when needed, explain whether it will be shared and with whom, and provide a way to use the Service without location where practical. Browser permission is controlled by your device/browser; turning it off may limit location-based features.</p>
+<p>Emergency reports may reveal health, safety, or other sensitive circumstances. Include only what is needed to request help. Do not assume a report is private if the live feature shares it with responders or network participants; the feature must explain its audience before submission.</p>
+<h2>6. Retention and deletion</h2>
+<p>The operator should keep personal information only while needed for the purpose it was collected for, to resolve an incident, maintain security, or meet a legal obligation. Proposed schedule: <strong>[state retention period for account data, SOS reports, messages, location, and logs; state what is deleted or anonymised when each period ends]</strong>.</p>
+<p>You can request account closure or deletion at <strong>[method/contact]</strong>. Explain any information that cannot be deleted immediately and the reason: <strong>[details]</strong>. Do not use “we keep data as long as necessary” as the only published retention explanation; set actual periods before launch.</p>
+<h2>7. Security</h2>
+<p>The operator should use safeguards appropriate to the data and risk, such as access restrictions, secure password hashing, encrypted transport, protected secrets, backups, and a process to detect and respond to data incidents. No system can guarantee absolute security. <strong>[Describe only controls that have actually been implemented.]</strong></p>
+<h2>8. Your choices and requests</h2>
+<p>Depending on applicable law, you may be able to request access to information about your data, correction, deletion, withdrawal of consent, or raise a grievance. Contact <strong>[privacy/grievance contact]</strong> and include enough information for the operator to locate your account. The operator will respond within <strong>[applicable response period]</strong>. Withdrawing consent may prevent use of a feature that needs the information.</p>
+<p>You can manage browser location permission in your device or browser settings. If third-party sign-in or other providers are added, their services are also governed by their own privacy policies.</p>
+<h2>9. Children</h2>
+<p>The operator must confirm whether people under 18 may use the Service and implement any required parental consent and child-safety protections before enabling their accounts. Current settings: <strong>[minimum age and process for handling a child's account or report]</strong>. Do not collect children's personal information for a live service until the applicable requirements have been reviewed and implemented.</p>
+<h2>10. International processing</h2>
+<p>If a hosting or service provider processes information outside your country, identify the relevant provider and location and explain any safeguards or transfer restrictions that apply: <strong>[countries, providers, and safeguards]</strong>.</p>
+<h2>11. Changes to this policy</h2>
+<p>The operator may update this policy when the Service or its data practices change. The policy's effective date will be updated, and users will receive notice of material changes where required. If new processing needs consent, obtain that consent before starting it.</p>
+<h2>12. Contact and complaints</h2>
+<p>Privacy questions or requests: <strong>[operator/privacy contact email and postal address]</strong>.<br />
+Grievances: <strong>[grievance contact, submission method, and response process]</strong>.</p>
+<h2>Official legal references for review</h2>
+<ul>
+<li><a href="https://www.indiacode.nic.in/bitstream/123456789/22037/2/a2023-22.pdf">Digital Personal Data Protection Act, 2023 — India Code</a></li>
+<li><a href="https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf">Digital Personal Data Protection Rules, 2025 — Gazette of India / MeitY</a></li>
+<li><a href="https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf">Commencement notification — Gazette of India / MeitY</a></li>
+</ul>
+</main></body></html>

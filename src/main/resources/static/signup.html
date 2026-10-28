@@ -1002,6 +1002,30 @@ nav ul li a:hover {
 
         }
 
+
+        .policy-dialog {
+            width: min(760px, calc(100% - 32px)); max-width: none;
+            max-height: min(82vh, 850px); position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); margin: 0; padding: 0;
+            color: #d5e5ed; background: rgba(5, 24, 38, .98);
+            border: 1px solid rgba(0, 229, 255, .45); border-radius: 14px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .65);
+        }
+        .policy-dialog::backdrop { background: rgba(1, 10, 17, .78); backdrop-filter: blur(4px); }
+        .policy-dialog-header { position: sticky; top: 0; z-index: 1; display: flex;
+            align-items: center; justify-content: space-between; padding: 16px 22px;
+            color: #fff; background: #03111d; border-bottom: 1px solid rgba(0, 229, 255, .25); }
+        .policy-dialog-header h2 { margin: 0; color: #00e5ff; font-size: 20px; }
+        .policy-close { padding: 7px 12px; color: #fff; background: transparent;
+            border: 1px solid #ff4d4d; border-radius: 7px; cursor: pointer; }
+        .policy-content { max-height: calc(min(82vh, 850px) - 62px); overflow: auto;
+            padding: 24px clamp(20px, 5vw, 48px); line-height: 1.65; }
+        .policy-content h1, .policy-content h2, .policy-content h3 { color: #00e5ff; line-height: 1.25; }
+        .policy-content h1 { margin-top: 0; font-size: 26px; }
+        .policy-content blockquote { margin-left: 0; padding: 12px 18px;
+            border-left: 4px solid #00e5ff; background: rgba(0, 229, 255, .08); }
+        .policy-content a { color: #00e5ff; }
+
     </style>
 
 </head>
@@ -1180,9 +1204,9 @@ nav ul li a:hover {
 
                 <span>
                     I agree to the Community Mesh
-                    <a href="#">Terms</a>
+                    <a href="/docs/TERMS_OF_USE.html" class="policy-link" data-policy-title="Terms of Use">Terms</a>
                     and
-                    <a href="#">Privacy Policy</a>.
+                    <a href="/docs/PRIVACY_POLICY.html" class="policy-link" data-policy-title="Privacy Policy">Privacy Policy</a>.
                 </span>
 
             </label>
@@ -1223,7 +1247,39 @@ nav ul li a:hover {
 
 </main>
 
+
+<dialog class="policy-dialog" id="policyDialog" aria-labelledby="policyTitle">
+    <div class="policy-dialog-header">
+        <h2 id="policyTitle">Community Mesh Policy</h2>
+        <button type="button" class="policy-close" id="policyClose" aria-label="Close policy">Close</button>
+    </div>
+    <div class="policy-content" id="policyContent" aria-live="polite"></div>
+</dialog>
+
 <script>
+const policyDialog = document.getElementById("policyDialog");
+const policyTitle = document.getElementById("policyTitle");
+const policyContent = document.getElementById("policyContent");
+document.querySelectorAll(".policy-link").forEach(link => {
+ link.addEventListener("click", async event => {
+  event.preventDefault();
+  policyTitle.textContent = link.dataset.policyTitle;
+  policyContent.textContent = "Loading...";
+  policyDialog.showModal();
+  try {
+   const response = await fetch(link.href);
+   if (!response.ok) throw new Error("Could not load document");
+   const page = new DOMParser().parseFromString(await response.text(), "text/html");
+   const content = page.querySelector("main");
+   policyContent.innerHTML = content ? content.innerHTML : "<p>This policy could not be displayed.</p>";
+  } catch (error) {
+   policyContent.innerHTML = "<p>Could not load this policy. Please try again.</p>";
+  }
+ });
+});
+document.getElementById("policyClose").addEventListener("click", () => policyDialog.close());
+policyDialog.addEventListener("click", event => { if (event.target === policyDialog) policyDialog.close(); });
+
 async function signupUser(event) {
  event.preventDefault();
  const firstName=document.getElementById("firstName").value.trim();
