@@ -26,7 +26,7 @@ Choosing a profile type such as “volunteer,” “responder,” or “officer�
 
 **The Service must not be relied on as the only way to request emergency help.** It does not guarantee delivery, receipt, accuracy, availability, response time, or a rescue. Networks, devices, power, internet access, and volunteer availability can fail, especially during a disaster. When there is immediate danger, contact your local emergency services using the established channel available to you.
 
-The website currently contains demonstration interactions. In the code reviewed for this draft, login/signup display success messages without authenticating or saving an account, and SOS/message actions display simulated confirmations rather than dispatching a real emergency request. Do not treat those screens or confirmations as proof that help has been contacted. Update this section before enabling live features.
+The application can authenticate accounts, store SOS reports and messages on its local server, and display them to participating users on the LAN. It does not contact emergency services, guarantee network delivery, or dispatch a professional rescue response. A success message confirms only that the local application accepted the request. Do not rely on this project as the only way to request emergency help.
 
 If live SOS or mesh messaging is enabled, the operator must explain before you send a message who can receive it, whether your location is included, and whether it may be relayed or stored. Share only information needed for the situation. Do not submit false, abusive, or knowingly misleading emergency reports.
 
@@ -69,4 +69,3 @@ These terms are governed by the laws of **[country/state]**, subject to any mand
 ## 10. Contact
 
 Questions or complaints about these terms: **[operator name, email, and postal address]**.
-

@@ -1128,37 +1128,7 @@ nav ul li a:hover {
             </div>
 
 
-            <div class="form-group">
-
-                <label>
-                    User Type
-                </label>
-
-                <select id="userType" required>
-
-                    <option value="">
-                        Select user type
-                    </option>
-
-                    <option value="citizen">
-                        Citizen
-                    </option>
-
-                    <option value="volunteer">
-                        Volunteer
-                    </option>
-
-                    <option value="responder">
-                        Emergency Responder
-                    </option>
-
-                    <option value="admin">
-                        Disaster Management Officer
-                    </option>
-
-                </select>
-
-            </div>
+            <p class="subtitle">New accounts receive the Citizen role. Responder and administrator access is provisioned separately.</p>
 
 
             <div class="form-group">
@@ -1286,7 +1256,7 @@ async function signupUser(event) {
  const lastName=document.getElementById("lastName").value.trim();
  const email=document.getElementById("email").value.trim().toLowerCase();
  const phone=document.getElementById("phone").value.trim();
- const userType=document.getElementById("userType").value;
+ const userType="Citizen";
  const password=document.getElementById("password").value;
  const confirmPassword=document.getElementById("confirmPassword").value;
  const message=document.getElementById("message");
@@ -1295,11 +1265,14 @@ async function signupUser(event) {
   const response=await fetch("/api/accounts/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({firstName,lastName,email,phone,userType,password})});
   const account=await response.json();
   if(!response.ok){message.innerText=account.message||"Could not create account.";message.style.display="block";return;}
-  const users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}");
-  users[account.email]=account;
-  localStorage.setItem("communityMeshUsers",JSON.stringify(users));
+  if(typeof storeSession==="function"){storeSession(account);} else {
+    const users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}");
+    users[account.email]=account;
+    localStorage.setItem("communityMeshUsers",JSON.stringify(users));
+    localStorage.setItem("communityMeshCurrentUser",account.email);
+    if(account.token){localStorage.setItem("communityMeshAuthToken",account.token);}
+  }
  } catch(error) { message.innerText="Could not reach the server. Please make sure the application is running.";message.style.display="block";return; }
- localStorage.setItem("communityMeshCurrentUser",email);
  message.innerText="Account created! Opening your profile...";
  message.style.display="block";setTimeout(()=>location.href="profile.html",700);
 }

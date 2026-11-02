@@ -6,14 +6,9 @@
     <title>Rescue Response | Community Mesh</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
-
 <nav>
-    <div class="logo">
-        Community<span>Mesh</span>
-    </div>
-
+    <div class="logo">Community<span>Mesh</span></div>
     <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
@@ -22,176 +17,135 @@
         <li><a href="network-map.html">Network Map</a></li>
         <li><a href="incidents.html">Incidents</a></li>
         <li><a href="response.html">Rescue Tracking</a></li>
-        
     </ul>
-
     <div class="profile-menu">
-<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
-<div class="profile-dropdown" id="profileDropdown">
-<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
-<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
-<button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
-</div></div>
+        <button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)">
+            <span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾
+        </button>
+        <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+            <a href="profile.html">👤 My Profile</a>
+            <a href="login.html" data-auth-link="login">↪ Login</a>
+            <a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+            <button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+        </div>
+    </div>
 </nav>
-<main class="page">
 
+<main class="page">
     <div class="section-title">
         <h2>Rescue & <span>Response Tracking</span></h2>
-        <p>Track emergency requests from receipt to resolution.</p>
+        <p>Assign teams and move emergencies from receipt to resolution.</p>
     </div>
 
     <div class="response-stats">
-
-        <div>
-            <strong>27</strong>
-            <span>Received</span>
-        </div>
-
-        <div>
-            <strong>19</strong>
-            <span>Assigned</span>
-        </div>
-
-        <div>
-            <strong>13</strong>
-            <span>In Progress</span>
-        </div>
-
-        <div>
-            <strong>31</strong>
-            <span>Resolved</span>
-        </div>
-
+        <div><strong id="rescueReceived">0</strong><span>Received</span></div>
+        <div><strong id="rescueAssigned">0</strong><span>Assigned</span></div>
+        <div><strong id="rescueInProgress">0</strong><span>In Progress</span></div>
+        <div><strong id="rescueResolved">0</strong><span>Resolved</span></div>
     </div>
 
-    <div class="response-list">
-
-        <div class="response-card">
-
-            <div class="response-header">
-                <strong>SOS #CM-1042</strong>
-                <span class="severity critical">CRITICAL</span>
+    <div class="sos-panel" style="max-width:720px;margin-bottom:30px;">
+        <h3>Register Rescue Team</h3>
+        <form onsubmit="createRescueTeam(event)">
+            <div class="type-grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+                <input id="teamName" placeholder="Team name" required maxlength="120">
+                <input id="teamSpecialty" placeholder="Specialty" required maxlength="120">
+                <input id="teamMembers" type="number" min="1" max="100" value="4" placeholder="Team size" required>
+                <input id="teamLatitude" type="number" step="any" min="-90" max="90" placeholder="Latitude (optional)">
+                <input id="teamLongitude" type="number" step="any" min="-180" max="180" placeholder="Longitude (optional)">
+                <button class="btn secondary" type="submit">Register Team</button>
             </div>
-
-            <p>🧱 Trapped person — Sector B</p>
-
-            <div class="pipeline">
-
-                <span class="done">
-                    ✓ Received
-                </span>
-
-                <span class="done">
-                    ✓ Assigned
-                </span>
-
-                <span class="active-step">
-                    ● In Progress
-                </span>
-
-                <span>
-                    ○ Resolved
-                </span>
-
-            </div>
-
-            <p class="team">
-                🚑 Assigned Team: Rescue Team Alpha
-            </p>
-
-            <button onclick="advanceResponse(this)">
-                Update Status
-            </button>
-
+        </form>
+        <hr style="margin:22px 0;border-color:#31506d;">
+        <h3>Assign Rescue Team</h3>
+        <div class="type-grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+            <select id="assignSosSelect"></select>
+            <select id="assignTeamSelect"></select>
         </div>
-
-
-        <div class="response-card">
-
-            <div class="response-header">
-                <strong>SOS #CM-1041</strong>
-                <span class="severity high">HIGH</span>
-            </div>
-
-            <p>🏥 Medical emergency — Sector A</p>
-
-            <div class="pipeline">
-
-                <span class="done">
-                    ✓ Received
-                </span>
-
-                <span class="active-step">
-                    ● Assigned
-                </span>
-
-                <span>
-                    ○ In Progress
-                </span>
-
-                <span>
-                    ○ Resolved
-                </span>
-
-            </div>
-
-            <p class="team">
-                🚑 Assigned Team: Medical Team 02
-            </p>
-
-            <button onclick="advanceResponse(this)">
-                Update Status
-            </button>
-
-        </div>
-
-
-        <div class="response-card">
-
-            <div class="response-header">
-                <strong>SOS #CM-1038</strong>
-                <span class="severity medium">MEDIUM</span>
-            </div>
-
-            <p>🚨 Evacuation request — Sector D</p>
-
-            <div class="pipeline">
-
-                <span class="done">
-                    ✓ Received
-                </span>
-
-                <span class="done">
-                    ✓ Assigned
-                </span>
-
-                <span class="done">
-                    ✓ In Progress
-                </span>
-
-                <span class="done">
-                    ✓ Resolved
-                </span>
-
-            </div>
-
-            <p class="team">
-                🚑 Assigned Team: Evacuation Team
-            </p>
-
-        </div>
-
+        <input id="assignNotes" placeholder="Assignment notes" style="width:100%;margin-top:12px;padding:10px;border-radius:8px;border:1px solid #31506d;background:#0b1728;color:white;">
+        <button class="btn primary" style="margin-top:14px;" onclick="assignTeam()">Assign Team</button>
     </div>
 
+    <div class="response-list" id="responseLiveList">
+        <p>Loading rescue assignments...</p>
+    </div>
 </main>
 
 <div id="toast"></div>
-
-<footer>
-    © 2026 Community Mesh
-</footer>
-
+<footer>© 2026 Community Mesh</footer>
 <script src="/js/script.js"></script>
+<script>
+async function loadAssignOptions() {
+  try {
+    const [alerts, teams] = await Promise.all([
+      apiRequest("/api/sos/active"),
+      apiRequest("/api/rescue/teams")
+    ]);
+    const sosSelect = document.getElementById("assignSosSelect");
+    const teamSelect = document.getElementById("assignTeamSelect");
+    sosSelect.replaceChildren(...(alerts.length
+      ? alerts.map(alert => new Option(`${alert.publicCode} — ${alert.category}`, alert.id))
+      : [new Option("No active SOS", "")]));
+    const availableTeams = teams.filter(team => team.status === "AVAILABLE");
+    teamSelect.replaceChildren(...(availableTeams.length
+      ? availableTeams.map(team => new Option(`${team.name} (${team.status})`, team.id))
+      : [new Option("No available teams", "")]));
+  } catch (error) {
+    showMessage(error.message || "Could not load assignment options.");
+  }
+}
 
+async function createRescueTeam(event) {
+  event.preventDefault();
+  if (!requireLogin("Responder/Admin login required.")) return;
+  try {
+    await apiRequest("/api/rescue/teams", {
+      method: "POST",
+      body: JSON.stringify({
+        name: document.getElementById("teamName").value.trim(),
+        specialty: document.getElementById("teamSpecialty").value.trim(),
+        memberCount: Number(document.getElementById("teamMembers").value),
+        latitude: document.getElementById("teamLatitude").value === "" ? null : Number(document.getElementById("teamLatitude").value),
+        longitude: document.getElementById("teamLongitude").value === "" ? null : Number(document.getElementById("teamLongitude").value)
+      })
+    });
+    event.target.reset();
+    document.getElementById("teamMembers").value = "4";
+    showMessage("Rescue team registered.");
+    loadAssignOptions();
+  } catch (error) {
+    showMessage(error.message || "Could not register rescue team.");
+  }
+}
+
+async function assignTeam() {
+  if (!requireLogin("Responder/Admin login required.")) return;
+  const sosAlertId = Number(document.getElementById("assignSosSelect").value);
+  const teamId = Number(document.getElementById("assignTeamSelect").value);
+  if (!sosAlertId || !teamId) {
+    showMessage("Select both an SOS alert and a team.");
+    return;
+  }
+  try {
+    await apiRequest("/api/rescue/assign", {
+      method: "POST",
+      body: JSON.stringify({
+        sosAlertId,
+        teamId,
+        notes: document.getElementById("assignNotes").value.trim()
+      })
+    });
+    showMessage("Rescue team assigned.");
+    document.getElementById("assignNotes").value = "";
+    loadAssignOptions();
+    loadRescueTracking();
+  } catch (error) {
+    showMessage(error.message || "Could not assign team.");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadAssignOptions);
+</script>
 </body>
 </html>

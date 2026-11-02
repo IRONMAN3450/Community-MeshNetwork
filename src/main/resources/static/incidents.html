@@ -6,14 +6,9 @@
     <title>Incidents | Community Mesh</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-
 <body>
-
 <nav>
-    <div class="logo">
-        Community<span>Mesh</span>
-    </div>
-
+    <div class="logo">Community<span>Mesh</span></div>
     <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
@@ -22,159 +17,96 @@
         <li><a href="network-map.html">Network Map</a></li>
         <li><a href="incidents.html">Incidents</a></li>
         <li><a href="response.html">Rescue Tracking</a></li>
-        
     </ul>
-
     <div class="profile-menu">
-<button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)"><span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾</button>
-<div class="profile-dropdown" id="profileDropdown">
-<div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
-<a href="profile.html">👤 My Profile</a><a href="login.html" data-auth-link="login">↪ Login</a><a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
-<button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
-</div></div>
+        <button class="profile-trigger" type="button" aria-expanded="false" onclick="toggleProfileMenu(event)">
+            <span class="profile-avatar">👤</span><span class="profile-trigger-label">Account</span> ▾
+        </button>
+        <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-dropdown-head"><strong id="menuUserName">My Account</strong><small id="menuUserEmail">Not logged in</small></div>
+            <a href="profile.html">👤 My Profile</a>
+            <a href="login.html" data-auth-link="login">↪ Login</a>
+            <a href="signup.html" data-auth-link="signup">＋ Sign Up</a>
+            <button type="button" id="logoutButton" onclick="logoutUser()">⇥ Logout</button>
+        </div>
+    </div>
 </nav>
 
 <main class="page">
-
     <div class="section-title">
         <h2>Multi-Incident <span>Alerts</span></h2>
-        <p>Monitor multiple disasters independently by sector.</p>
+        <p>Monitor disasters from the live incident database.</p>
     </div>
 
     <div class="filters">
-
         <button onclick="filterIncidents('all')">All</button>
         <button onclick="filterIncidents('flood')">Flood</button>
         <button onclick="filterIncidents('earthquake')">Earthquake</button>
         <button onclick="filterIncidents('fire')">Fire</button>
         <button onclick="filterIncidents('cyclone')">Cyclone</button>
-
     </div>
 
-    <div class="incident-grid">
-
-        <div class="incident-card flood incident">
-            <span class="severity critical">CRITICAL</span>
-            <h3>🌊 Flood</h3>
-
-            <p>
-                Sector A — Riverside District
-            </p>
-
-            <hr>
-
-            <p>
-                Water level: <strong>Dangerous</strong>
-            </p>
-
-            <p>
-                Active SOS: <strong>37</strong>
-            </p>
-
-            <p>
-                Response teams: <strong>6</strong>
-            </p>
-
-            <button onclick="showMessage('Flood incident opened')">
-                View Incident
-            </button>
-        </div>
-
-
-        <div class="incident-card earthquake incident">
-            <span class="severity critical">CRITICAL</span>
-            <h3>🌍 Earthquake</h3>
-
-            <p>
-                Sector B — Central District
-            </p>
-
-            <hr>
-
-            <p>
-                Magnitude: <strong>6.2</strong>
-            </p>
-
-            <p>
-                Active SOS: <strong>12</strong>
-            </p>
-
-            <p>
-                Response teams: <strong>8</strong>
-            </p>
-
-            <button onclick="showMessage('Earthquake incident opened')">
-                View Incident
-            </button>
-        </div>
-
-
-        <div class="incident-card fire incident">
-            <span class="severity high">HIGH</span>
-            <h3>🔥 Fire</h3>
-
-            <p>
-                Sector C — Industrial Area
-            </p>
-
-            <hr>
-
-            <p>
-                Status: <strong>Spreading</strong>
-            </p>
-
-            <p>
-                Active SOS: <strong>8</strong>
-            </p>
-
-            <p>
-                Fire teams: <strong>4</strong>
-            </p>
-
-            <button onclick="showMessage('Fire incident opened')">
-                View Incident
-            </button>
-        </div>
-
-
-        <div class="incident-card cyclone incident">
-            <span class="severity medium">MEDIUM</span>
-            <h3>🌀 Cyclone</h3>
-
-            <p>
-                Sector D — Coastal Area
-            </p>
-
-            <hr>
-
-            <p>
-                Wind: <strong>110 km/h</strong>
-            </p>
-
-            <p>
-                Active SOS: <strong>5</strong>
-            </p>
-
-            <p>
-                Shelters: <strong>12</strong>
-            </p>
-
-            <button onclick="showMessage('Cyclone incident opened')">
-                View Incident
-            </button>
-        </div>
-
+    <div class="incident-grid" id="incidentLiveGrid">
+        <p>Loading incidents...</p>
     </div>
 
+    <div class="section-title" style="margin-top:40px;">
+        <h2>Create <span>Incident</span></h2>
+        <p>Responders and admins can open a new incident record.</p>
+    </div>
+    <form class="sos-panel" onsubmit="createIncident(event)" style="max-width:640px;">
+        <div class="type-grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+            <input id="incidentTitle" placeholder="Title" required>
+            <select id="incidentType" required>
+                <option value="FLOOD">Flood</option>
+                <option value="EARTHQUAKE">Earthquake</option>
+                <option value="FIRE">Fire</option>
+                <option value="CYCLONE">Cyclone</option>
+            </select>
+            <input id="incidentSector" placeholder="Sector / area" required>
+            <select id="incidentSeverity">
+                <option>CRITICAL</option>
+                <option selected>HIGH</option>
+                <option>MEDIUM</option>
+                <option>LOW</option>
+            </select>
+        </div>
+        <div class="type-grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+            <input id="incidentLatitude" type="number" step="any" min="-90" max="90" placeholder="Latitude (optional)">
+            <input id="incidentLongitude" type="number" step="any" min="-180" max="180" placeholder="Longitude (optional)">
+        </div>
+        <textarea id="incidentDescription" placeholder="Description" rows="3" style="width:100%;margin-top:12px;padding:10px;border-radius:8px;border:1px solid #31506d;background:#0b1728;color:white;"></textarea>
+        <button class="btn primary" type="submit" style="margin-top:14px;">Create Incident</button>
+    </form>
 </main>
 
 <div id="toast"></div>
-
-<footer>
-    © 2026 Community Mesh
-</footer>
-
+<footer>© 2026 Community Mesh</footer>
 <script src="/js/script.js"></script>
-
+<script>
+async function createIncident(event) {
+  event.preventDefault();
+  if (!requireLogin("Responder/Admin login required.")) return;
+  try {
+    await apiRequest("/api/incidents", {
+      method: "POST",
+      body: JSON.stringify({
+        title: document.getElementById("incidentTitle").value.trim(),
+        type: document.getElementById("incidentType").value,
+        sector: document.getElementById("incidentSector").value.trim(),
+        description: document.getElementById("incidentDescription").value.trim(),
+        severity: document.getElementById("incidentSeverity").value,
+        latitude: document.getElementById("incidentLatitude").value === "" ? null : Number(document.getElementById("incidentLatitude").value),
+        longitude: document.getElementById("incidentLongitude").value === "" ? null : Number(document.getElementById("incidentLongitude").value)
+      })
+    });
+    showMessage("Incident created.");
+    event.target.reset();
+    loadIncidentsPage();
+  } catch (error) {
+    showMessage(error.message || "Could not create incident.");
+  }
+}
+</script>
 </body>
 </html>

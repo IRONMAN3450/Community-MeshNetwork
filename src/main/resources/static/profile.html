@@ -24,16 +24,46 @@
   </div>
 </nav>
 <main class="page profile-page">
-  <div class="section-title"><h2>My <span>Profile</span></h2><p>View your Community Mesh account details.</p></div>
+  <div class="section-title"><h2>My <span>Profile</span></h2><p>View and update your Community Mesh account details.</p></div>
   <section class="profile-card">
-    <div class="profile-big-avatar">👤</div><h2 id="profileName">Guest User</h2><p id="profileStatus" class="profile-status">You are not logged in.</p>
+    <div class="profile-big-avatar">👤</div>
+    <h2 id="profileName">Guest User</h2>
+    <p id="profileStatus" class="profile-status">You are not logged in.</p>
     <div class="profile-detail"><span>Full name</span><strong id="profileFullName">—</strong></div>
     <div class="profile-detail"><span>Email address</span><strong id="profileEmail">—</strong></div>
+    <div class="profile-detail"><span>Phone</span><strong id="profilePhone">—</strong></div>
+    <div class="profile-detail"><span>Role</span><strong id="profileRole">—</strong></div>
+    <div class="profile-detail"><span>Emergency contact</span><strong id="profileEmergencyName">—</strong></div>
+    <div class="profile-detail"><span>Emergency phone</span><strong id="profileEmergencyPhone">—</strong></div>
     <div class="profile-detail"><span>Password</span><strong>•••••••• (protected)</strong></div>
-    <p class="profile-note">For your security, this page never displays or stores your password as readable text. Use the login form to enter your password.</p>
-    <div class="profile-actions"><a class="btn secondary" id="profileLogin" href="login.html">Login</a><button class="btn primary" id="profileLogout" onclick="logoutUser()">Logout</button></div>
+    <p class="profile-note">Passwords are stored only as encrypted hashes and are never shown here.</p>
+    <div class="profile-detail"><span>Saved GPS location</span><strong id="profileLocation">Not shared</strong></div>
+    <button class="btn secondary" id="profileLocationButton" type="button" onclick="updateProfileLocation()" aria-describedby="profileLocationStatus">Share current GPS location with your profile</button>
+    <p class="profile-note" id="profileLocationStatus" role="status" aria-live="polite">Your saved location is used only as a fallback when creating an SOS without a GPS fix.</p>
+    <form onsubmit="saveProfileLocation(event)">
+      <div class="profile-detail"><label for="profileLatitude">Latitude</label><input id="profileLatitude" type="number" min="-90" max="90" step="any" placeholder="e.g. 28.6139" required></div>
+      <div class="profile-detail"><label for="profileLongitude">Longitude</label><input id="profileLongitude" type="number" min="-180" max="180" step="any" placeholder="e.g. 77.2090" required></div>
+      <button class="btn secondary" id="profileManualLocationButton" type="submit">Save coordinates</button>
+      <p class="profile-note">If GPS is blocked by your browser, enter coordinates manually. GPS access from another device requires HTTPS; localhost is allowed for testing on this computer.</p>
+    </form>
+    <div class="profile-actions">
+      <a class="btn secondary" id="profileLogin" href="login.html">Login</a>
+      <button class="btn primary" id="profileLogout" onclick="logoutUser()">Logout</button>
+    </div>
+  </section>
+
+  <section class="profile-card" id="profileEditPanel" style="display:none;margin-top:24px;">
+    <h3>Edit Profile</h3>
+    <form onsubmit="saveProfile(event)">
+      <div class="profile-detail"><span>First name</span><input id="editFirstName" required></div>
+      <div class="profile-detail"><span>Last name</span><input id="editLastName" required></div>
+      <div class="profile-detail"><span>Phone</span><input id="editPhone" required></div>
+      <div class="profile-detail"><span>Emergency contact</span><input id="editEmergencyName"></div>
+      <div class="profile-detail"><span>Emergency phone</span><input id="editEmergencyPhone"></div>
+      <button class="btn primary" type="submit" style="margin-top:16px;">Save Changes</button>
+    </form>
   </section>
 </main>
 <div id="toast"></div><footer>© 2026 Community Mesh</footer>
-<script src="/js/script.js"></script>
+<script src="/js/script.js?v=profile-location-2"></script>
 </body></html>

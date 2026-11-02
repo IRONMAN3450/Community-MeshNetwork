@@ -22,7 +22,7 @@ a { color: #007f9a; }
 </blockquote>
 <h2>1. What this policy covers</h2>
 <p>This policy describes how the operator handles personal information when you use the Community Mesh website and, once enabled, its account, incident-reporting, SOS, location, and communication features (the <strong>Service</strong>).</p>
-<p>Community Mesh is a disaster-preparedness project. The current website includes demo interactions. In the code reviewed for this draft, the login and signup forms do not send credentials to a server or create accounts; SOS and quick-reply actions show simulated messages; the map page can request browser location only if the user chooses its location control. Confirm these facts against the deployed version before publication. If a backend, analytics, or external service receives information, update this policy to describe it accurately.</p>
+<p>Community Mesh is a local/LAN disaster-preparedness demonstration. Signup and login send account details to the Spring Boot server; account, SOS, incident, rescue, node, and chat records are stored in the local H2 database. Browser location is requested only after the user activates a location-enabled feature. The network map loads Leaflet assets and map tiles from third parties when the page is opened, so viewing the map requires internet access and discloses the map request to those providers. The app does not contact emergency services or guarantee rescue. This draft must be reviewed against the deployed configuration before real emergency data is collected.</p>
 <h2>2. Information the live Service may handle</h2>
 <p>The operator should collect only what is needed for each feature. Depending on the features actually enabled, that may include:</p>
 <ul>

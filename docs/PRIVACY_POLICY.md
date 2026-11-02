@@ -13,7 +13,7 @@
 
 This policy describes how the operator handles personal information when you use the Community Mesh website and, once enabled, its account, incident-reporting, SOS, location, and communication features (the **Service**).
 
-Community Mesh is a disaster-preparedness project. The current website includes demo interactions. In the code reviewed for this draft, the login and signup forms do not send credentials to a server or create accounts; SOS and quick-reply actions show simulated messages; the map page can request browser location only if the user chooses its location control. Confirm these facts against the deployed version before publication. If a backend, analytics, or external service receives information, update this policy to describe it accurately.
+Community Mesh is a local/LAN disaster-preparedness demonstration. Signup and login send account details to the Spring Boot server; account, SOS, incident, rescue, node, and chat records are stored in the local H2 database. Browser location is requested only after the user activates a location-enabled feature. The network map loads Leaflet assets and map tiles from third parties when the page is opened, so viewing the map requires internet access and discloses the map request to those providers. The app does not contact emergency services or guarantee rescue. This draft must be reviewed against the deployed configuration before real emergency data is collected.
 
 ## 2. Information the live Service may handle
 
@@ -93,4 +93,3 @@ Grievances: **[grievance contact, submission method, and response process]**.
 - [Digital Personal Data Protection Act, 2023 — India Code](https://www.indiacode.nic.in/bitstream/123456789/22037/2/a2023-22.pdf)
 - [Digital Personal Data Protection Rules, 2025 — Gazette of India / MeitY](https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf)
 - [Commencement notification — Gazette of India / MeitY](https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf)
-
