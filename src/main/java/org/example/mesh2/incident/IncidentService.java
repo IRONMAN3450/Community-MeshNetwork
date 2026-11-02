@@ -52,6 +52,12 @@ public class IncidentService {
     }
 
     @Transactional(readOnly = true)
+    public List<IncidentResponse> listRecentActive() {
+        return incidents.findTop8ByStatusIgnoreCaseNotInOrderByCreatedAtDesc(List.of("RESOLVED", "ARCHIVED"))
+                .stream().map(this::refreshCounts).map(IncidentResponse::from).toList();
+    }
+
+    @Transactional(readOnly = true)
     public IncidentResponse get(Long id) {
         return IncidentResponse.from(refreshCounts(requireIncident(id)));
     }

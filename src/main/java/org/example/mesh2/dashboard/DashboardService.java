@@ -61,16 +61,9 @@ public class DashboardService {
         payload.put("assigned", sosAlerts.countByStatus(SosStatus.ASSIGNED));
         payload.put("inProgress", sosAlerts.countByStatus(SosStatus.IN_PROGRESS));
         payload.put("resolved", sosAlerts.countByStatus(SosStatus.RESOLVED));
-        payload.put("recentIncidents", incidentService.listAll(null).stream()
-                .filter(incident -> !"RESOLVED".equalsIgnoreCase(incident.status())
-                        && !"ARCHIVED".equalsIgnoreCase(incident.status()))
-                .limit(8)
-                .toList());
-        payload.put("recentSosAlerts", sosAlerts.findByStatusNotInOrderByCreatedAtDesc(closedSosStatuses)
-                .stream()
-                .limit(10)
-                .map(SosResponse::from)
-                .toList());
+        payload.put("recentIncidents", incidentService.listRecentActive());
+        payload.put("recentSosAlerts", sosAlerts.findTop10ByStatusNotInOrderByCreatedAtDesc(closedSosStatuses)
+                .stream().map(SosResponse::from).toList());
         return payload;
     }
 

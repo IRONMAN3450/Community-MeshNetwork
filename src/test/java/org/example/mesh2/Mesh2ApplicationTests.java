@@ -3,6 +3,10 @@ package org.example.mesh2;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import org.example.mesh2.auth.AuthSession;
+import org.example.mesh2.auth.AuthSessionRepository;
 import org.example.mesh2.account.UserAccountRepository;
 import org.example.mesh2.sos.SosAlertRepository;
 import org.junit.jupiter.api.Test;
@@ -37,6 +41,9 @@ class Mesh2ApplicationTests {
 
     @Autowired
     private SosAlertRepository sosAlerts;
+
+    @Autowired
+    private AuthSessionRepository sessions;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -87,6 +94,29 @@ class Mesh2ApplicationTests {
                         .content("{invalid json"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Request body is invalid."));
+    }
+
+    @Test
+    void unknownApiEndpointReturnsStructuredNotFound() throws Exception {
+        String citizenToken = login("citizen@mesh.local", "password123");
+        mockMvc.perform(get("/api/not-a-real-endpoint").header("X-Auth-Token", citizenToken))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("API endpoint not found."));
+    }
+
+    @Test
+    void expiredSessionIsRemovedAfterUnauthorizedResponse() throws Exception {
+        var citizen = accounts.findByEmail("citizen@mesh.local").orElseThrow();
+        String token = "expired-" + UUID.randomUUID();
+        Instant now = Instant.now();
+        sessions.saveAndFlush(new AuthSession(token, citizen.getId(), now.minus(2, ChronoUnit.DAYS),
+                now.minus(1, ChronoUnit.DAYS)));
+
+        mockMvc.perform(get("/api/accounts/me").header("X-Auth-Token", token))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.message").value("Session expired. Please log in again."));
+
+        assertTrue(sessions.findByToken(token).isEmpty(), "Expired auth sessions should be deleted.");
     }
 
     @Test
@@ -141,6 +171,25 @@ class Mesh2ApplicationTests {
                         .content("{\"content\":\"anonymous after denied request\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.senderName").value("Anonymous Node"));
+    }
+
+    @Test
+    void seededAdminCanManageIncidentsAndRescueTeams() throws Exception {
+        String adminToken = login("admin@mesh.local", "password123");
+
+        mockMvc.perform(post("/api/incidents")
+                        .header("X-Auth-Token", adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"Admin managed incident\",\"type\":\"FIRE\",\"sector\":\"Test sector\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.status").value("ACTIVE"));
+
+        mockMvc.perform(post("/api/rescue/teams")
+                        .header("X-Auth-Token", adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"Admin team " + UUID.randomUUID() + "\",\"specialty\":\"Response\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.status").value("AVAILABLE"));
     }
 
     @Test

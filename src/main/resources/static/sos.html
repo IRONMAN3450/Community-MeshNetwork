@@ -51,7 +51,7 @@
             <option value="">No linked incident</option>
         </select>
         <p id="selectedType" class="selected-type">Select an emergency type.</p>
-        <button class="sos-button" onclick="sendSOS()">SOS</button>
+        <button class="sos-button" id="sendSosButton" onclick="sendSOS()">SOS</button>
         <p class="warning">Pressing SOS stores your alert in the database and notifies the rescue dashboard.</p>
     </div>
 
@@ -64,7 +64,7 @@
 
 <div id="toast"></div>
 <footer>© 2026 Community Mesh</footer>
-<script src="/js/script.js"></script>
+<script src="/js/script.js?v=dashboard-live-5"></script>
 <script>
 async function loadMySos() {
   const grid = document.getElementById("mySosGrid");

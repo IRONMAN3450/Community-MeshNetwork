@@ -8,6 +8,8 @@ import org.example.mesh2.common.RequestContext;
 import org.example.mesh2.mesh.MeshDtos.MessageResponse;
 import org.example.mesh2.mesh.MeshDtos.SendMessageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -40,7 +42,12 @@ public class MeshService {
                 1
         ));
         MessageResponse response = MessageResponse.from(saved);
-        webSocketHub.broadcast(response);
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                webSocketHub.broadcast(response);
+            }
+        });
         return response;
     }
 

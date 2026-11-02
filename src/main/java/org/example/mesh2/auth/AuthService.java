@@ -32,7 +32,7 @@ public class AuthService {
         return token;
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = ApiException.class)
     public UserAccount resolveUser(String token) {
         if (token == null || token.isBlank()) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "Please log in to continue.");

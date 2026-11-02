@@ -44,7 +44,12 @@ function storeSession(account) {
     if (!account || !account.email) {
         return;
     }
-    const users = JSON.parse(localStorage.getItem(USERS_CACHE_KEY) || "{}");
+    let users = {};
+    try {
+        users = JSON.parse(localStorage.getItem(USERS_CACHE_KEY) || "{}");
+    } catch (error) {
+        users = {};
+    }
     users[account.email] = account;
     localStorage.setItem(USERS_CACHE_KEY, JSON.stringify(users));
     localStorage.setItem(CURRENT_USER_KEY, account.email);
@@ -68,25 +73,42 @@ async function apiRequest(path, options = {}) {
         headers["X-Auth-Token"] = token;
     }
 
-    const response = await fetch(path, Object.assign({}, options, { headers }));
-    let body = null;
-    const text = await response.text();
-    if (text) {
-        try {
-            body = JSON.parse(text);
-        } catch (error) {
-            body = { message: text };
+    const controller = new AbortController();
+    const timeoutMs = options.timeoutMs || 15000;
+    const requestOptions = Object.assign({}, options, { headers, signal: controller.signal });
+    delete requestOptions.timeoutMs;
+    const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        const response = await fetch(path, requestOptions);
+        let body = null;
+        const text = await response.text();
+        if (text) {
+            try {
+                body = JSON.parse(text);
+            } catch (error) {
+                body = { message: text };
+            }
         }
-    }
 
-    if (!response.ok) {
-        const message = (body && body.message) || "Request failed.";
-        const error = new Error(message);
-        error.status = response.status;
-        error.body = body;
+        if (!response.ok) {
+            const message = (body && body.message) || `Request failed (${response.status}).`;
+            const error = new Error(message);
+            error.status = response.status;
+            error.body = body;
+            throw error;
+        }
+        return body;
+    } catch (error) {
+        if (error.name === "AbortError") {
+            throw new Error("The server did not respond in time. Check your connection and try again.");
+        }
+        if (error instanceof TypeError) {
+            throw new Error("Could not reach the server. Check that Community Mesh is running and try again.");
+        }
         throw error;
+    } finally {
+        window.clearTimeout(timeout);
     }
-    return body;
 }
 
 function severityClass(severity) {
@@ -119,6 +141,12 @@ function typeEmoji(type) {
 
 function formatStatus(status) {
     return (status || "").replaceAll("_", " ");
+}
+
+function statusBadge(status) {
+    const value = String(status || "UNKNOWN").toUpperCase();
+    const className = value.toLowerCase().replace(/[^a-z0-9-]/g, "-");
+    return `<span class="status-badge status-${className}">${escapeHtml(formatStatus(value))}</span>`;
 }
 
 function pipelineHtml(status) {
@@ -161,6 +189,11 @@ function hasResponderRole() {
     return role === "RESPONDER" || role === "ADMIN";
 }
 
+function updateRoleBasedDashboardActions() {
+    const actions = document.getElementById("adminQuickActions");
+    if (actions) actions.hidden = !hasResponderRole();
+}
+
 /* ==============================
    SOS helpers used by sos.html
 ============================== */
@@ -189,6 +222,12 @@ async function sendSOS() {
         return;
     }
 
+    const sendButton = document.getElementById("sendSosButton");
+    if (sendButton) {
+        sendButton.disabled = true;
+        sendButton.textContent = "Sending SOS…";
+    }
+
     const payload = {
         category: selectedEmergency,
         description: selectedEmergency + " emergency reported via Community Mesh SOS.",
@@ -214,6 +253,11 @@ async function sendSOS() {
             }
         } catch (error) {
             showMessage(error.message || "Could not send SOS.");
+        } finally {
+            if (sendButton) {
+                sendButton.disabled = false;
+                sendButton.textContent = "SOS";
+            }
         }
     };
 
@@ -362,6 +406,7 @@ function applyUserToProfileUi(user) {
             ? `${Number(user.latitude).toFixed(5)}, ${Number(user.longitude).toFixed(5)}`
             : "Not shared";
     }
+    updateRoleBasedDashboardActions();
     const latitudeInput = document.getElementById("profileLatitude");
     const longitudeInput = document.getElementById("profileLongitude");
     if (latitudeInput && user && user.latitude != null) latitudeInput.value = user.latitude;
@@ -390,6 +435,7 @@ function applyUserToProfileUi(user) {
 
 function refreshProfileMenu() {
     applyUserToProfileUi(getCachedUser());
+    updateRoleBasedDashboardActions();
 }
 
 async function refreshProfileFromServer() {
@@ -561,18 +607,29 @@ async function saveProfileLocation(event) {
 let dashboardLoadInProgress = false;
 let dashboardRefreshTimer;
 
-async function loadDashboard() {
+async function loadDashboard(options = {}) {
     const incidentsEl = document.getElementById("incidents");
     if (!incidentsEl && !document.getElementById("sosCount")) {
         return;
     }
     if (dashboardLoadInProgress) return;
     dashboardLoadInProgress = true;
+    const refreshButton = document.getElementById("dashboardRefreshButton");
+    const statusEl = document.getElementById("dashboardUpdatedAt");
+    if (refreshButton) refreshButton.disabled = true;
+    ["dashboardIncidentGrid", "dashboardSosGrid"].forEach((id) => {
+        const grid = document.getElementById(id);
+        if (grid) grid.setAttribute("aria-busy", "true");
+    });
     try {
         const stats = await apiRequest("/api/dashboard");
         const setText = (id, value) => {
             const el = document.getElementById(id);
-            if (el) el.textContent = value;
+            if (el) {
+                el.textContent = value;
+                el.classList.remove("skeleton", "skeleton-number");
+                el.removeAttribute("aria-label");
+            }
         };
         setText("incidents", stats.activeIncidents ?? 0);
         setText("sosCount", stats.activeSos ?? 0);
@@ -590,9 +647,11 @@ async function loadDashboard() {
                     <span class="severity ${severityClass(incident.severity)}">${escapeHtml(incident.severity)}</span>
                     <h3>${typeEmoji(incident.type)} ${escapeHtml(incident.title)}</h3>
                     <p>${escapeHtml(incident.description || incident.sector)}</p>
+                    <p>${statusBadge(incident.status)}</p>
                     <strong>${incident.activeSosCount || 0} SOS requests</strong>
                 </div>
-            `).join("") || "<p>No incidents yet.</p>";
+            `).join("") || `<div class="dashboard-empty"><strong>No active incidents</strong><p>New incidents reported to Community Mesh will appear here.</p><a href="incidents.html">View incidents</a></div>`;
+            grid.dataset.loaded = "true";
         }
         const sosGrid = document.getElementById("dashboardSosGrid");
         if (sosGrid && Array.isArray(stats.recentSosAlerts)) {
@@ -602,22 +661,40 @@ async function loadDashboard() {
                     <h3>🆘 ${escapeHtml(alert.publicCode)} — ${escapeHtml(alert.category)}</h3>
                     <p>Reported by ${escapeHtml(alert.reporterName || "Community member")}</p>
                     <p>${escapeHtml(alert.description || alert.locationLabel || "Location not provided")}</p>
-                    <p>Status: <strong>${escapeHtml(formatStatus(alert.status))}</strong></p>
+                    <p>Status: ${statusBadge(alert.status)}</p>
                     ${alert.latitude != null && alert.longitude != null
                         ? `<p>Location: ${Number(alert.latitude).toFixed(5)}, ${Number(alert.longitude).toFixed(5)}</p>`
                         : ""}
                 </div>
-            `).join("") || "<p>No active SOS requests.</p>";
+            `).join("") || `<div class="dashboard-empty"><strong>No active SOS requests</strong><p>There are no open emergency requests right now.</p><a href="sos.html">Open SOS page</a></div>`;
+            sosGrid.dataset.loaded = "true";
         }
-        const updatedAt = document.getElementById("dashboardUpdatedAt");
-        if (updatedAt) updatedAt.textContent = `Last updated ${new Date().toLocaleTimeString()}. Refreshes automatically.`;
+        if (statusEl) statusEl.textContent = `Live data · Updated ${new Date().toLocaleTimeString()}. Refreshes every 15 seconds.`;
     } catch (error) {
+        ["incidents", "sosCount", "nodes", "teamsDeployed", "statReceived", "statAssigned", "statInProgress", "statResolved"].forEach((id) => {
+            const metric = document.getElementById(id);
+            if (metric && metric.classList.contains("skeleton")) {
+                metric.textContent = "—";
+                metric.classList.remove("skeleton", "skeleton-number");
+                metric.removeAttribute("aria-label");
+            }
+        });
         const grid = document.getElementById("dashboardIncidentGrid");
         const sosGrid = document.getElementById("dashboardSosGrid");
-        if (grid) grid.textContent = "Could not load incidents. " + (error.message || "");
-        if (sosGrid) sosGrid.textContent = "Could not load SOS requests. " + (error.message || "");
-        showMessage(error.message || "Could not load dashboard.");
+        const showError = (element, title) => {
+            if (!element || element.dataset.loaded === "true") return;
+            element.innerHTML = `<div class="dashboard-error" role="alert"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(error.message || "Please try again.")}</p><button type="button" onclick="loadDashboard({ notifyOnError: true })">Try again</button></div>`;
+        };
+        showError(grid, "Could not load incidents.");
+        showError(sosGrid, "Could not load SOS requests.");
+        if (statusEl) statusEl.textContent = "Live data is temporarily unavailable.";
+        if (options.notifyOnError) showMessage(error.message || "Could not refresh dashboard.");
     } finally {
+        ["dashboardIncidentGrid", "dashboardSosGrid"].forEach((id) => {
+            const grid = document.getElementById(id);
+            if (grid) grid.setAttribute("aria-busy", "false");
+        });
+        if (refreshButton) refreshButton.disabled = false;
         dashboardLoadInProgress = false;
     }
 }
@@ -710,9 +787,9 @@ async function loadRescueTracking() {
                 ${item.notes ? `<p>Notes: ${escapeHtml(item.notes)}</p>` : ""}
                 ${item.status === "RESOLVED" || item.status === "CANCELLED" ? "" : `<button data-assignment-id="${escapeHtml(item.id)}" onclick="advanceResponse(this)">Update Status</button>`}
             </div>
-        `).join("") || "<p>No rescue assignments yet.</p>";
+        `).join("") || "<div class=\"dashboard-empty\"><strong>No rescue assignments yet</strong><p>Assignments will appear here when a response team is assigned to an SOS.</p></div>";
     } catch (error) {
-        list.textContent = error.message || "Could not load rescue tracking.";
+        list.innerHTML = `<div class="dashboard-error" role="alert"><p>${escapeHtml(error.message || "Could not load rescue tracking.")}</p><button type="button" onclick="loadRescueTracking()">Try again</button></div>`;
     }
 }
 
@@ -739,7 +816,8 @@ async function loadMeshCommunication() {
     try {
         const messages = await apiRequest("/api/mesh/messages");
         box.innerHTML = "";
-        messages.forEach((message) => appendMeshMessage(message, user));
+        if (messages.length) messages.forEach((message) => appendMeshMessage(message, user));
+        else box.innerHTML = "<p class=\"empty-state\">No messages yet. Send a quick reply to start the conversation.</p>";
 
         const status = await apiRequest("/api/mesh/status");
         const online = document.getElementById("meshOnlineStatus");
@@ -750,19 +828,34 @@ async function loadMeshCommunication() {
         const protocol = location.protocol === "https:" ? "wss" : "ws";
         const token = getAuthToken();
         const socket = new WebSocket(`${protocol}://${location.host}/ws/mesh${token ? ("?token=" + encodeURIComponent(token)) : ""}`);
+        socket.onopen = () => {
+            if (online) online.textContent = "● Connected";
+        };
         socket.onmessage = (event) => {
             try {
                 const data = JSON.parse(event.data);
                 if (data.type === "mesh-message") {
                     appendMeshMessage(data.payload, getCachedUser());
+                } else if (data.type === "error") {
+                    showMessage(data.message || "The mesh message could not be sent.");
                 }
             } catch (error) {
                 // Ignore malformed frames.
             }
         };
+        socket.onerror = () => {
+            if (online) online.textContent = "● Connection issue";
+        };
+        socket.onclose = () => {
+            if (online) online.textContent = "● Reconnecting…";
+            window.clearTimeout(window.__meshReconnectTimer);
+            window.__meshReconnectTimer = window.setTimeout(() => {
+                if (document.visibilityState === "visible") loadMeshCommunication();
+            }, 3000);
+        };
         window.__meshSocket = socket;
     } catch (error) {
-        box.innerHTML = "<p>Could not load mesh messages.</p>";
+        box.innerHTML = `<div class="dashboard-error" role="alert"><p>${escapeHtml(error.message || "Could not load mesh messages.")}</p><button type="button" onclick="loadMeshCommunication()">Try again</button></div>`;
     }
 }
 
@@ -773,19 +866,12 @@ async function sendMeshChat(event) {
     const content = input.value.trim();
     if (!content) return;
     try {
-        if (window.__meshSocket && window.__meshSocket.readyState === WebSocket.OPEN) {
-            window.__meshSocket.send(JSON.stringify({
-                type: "send",
-                token: getAuthToken(),
-                content
-            }));
-        } else {
-            await apiRequest("/api/mesh/messages", {
-                method: "POST",
-                body: JSON.stringify({ content })
-            });
-        }
+        await apiRequest("/api/mesh/messages", {
+            method: "POST",
+            body: JSON.stringify({ content })
+        });
         input.value = "";
+        showMessage("Message sent.");
     } catch (error) {
         showMessage(error.message || "Could not send message.");
     }
@@ -845,6 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
     loadRescueTracking();
     loadMeshCommunication();
     if (document.getElementById("dashboardIncidentGrid") && !dashboardRefreshTimer) {
-        dashboardRefreshTimer = window.setInterval(loadDashboard, 5000);
+        dashboardRefreshTimer = window.setInterval(() => {
+            if (document.visibilityState === "visible") loadDashboard();
+        }, 15000);
     }
 });

@@ -785,10 +785,10 @@ async function loginUser(event) {
  const email=document.getElementById("email").value.trim().toLowerCase();
  const password=document.getElementById("password").value;
  const message=document.getElementById("message");
+ const button=event.currentTarget.querySelector('[type="submit"]');
+ if(button){button.disabled=true;button.textContent="Signing in…";}
  try {
-  const response=await fetch("/api/accounts/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
-  const account=await response.json();
-  if(!response.ok){message.innerText=account.message||"Email/password is incorrect, or no account exists yet.";message.style.display="block";return;}
+  const account=await apiRequest("/api/accounts/login",{method:"POST",body:JSON.stringify({email,password})});
   if(typeof storeSession==="function"){storeSession(account);} else {
     const users=JSON.parse(localStorage.getItem("communityMeshUsers")||"{}");
     users[account.email]=account;
@@ -796,12 +796,13 @@ async function loginUser(event) {
     localStorage.setItem("communityMeshCurrentUser",account.email);
     if(account.token){localStorage.setItem("communityMeshAuthToken",account.token);}
   }
- } catch(error) { message.innerText="Could not reach the server. Please make sure the application is running.";message.style.display="block";return; }
+ } catch(error) { message.innerText=error.message||"Could not sign in. Please try again.";message.style.display="block";return; }
+ finally {if(button){button.disabled=false;button.textContent="LOGIN";}}
  message.innerText="Login successful! Opening your profile...";message.style.display="block";
  setTimeout(()=>location.href="profile.html",700);
 }
 </script>
 
-<script src="/js/script.js"></script>
+<script src="/js/script.js?v=dashboard-live-5"></script>
 </body>
 </html>

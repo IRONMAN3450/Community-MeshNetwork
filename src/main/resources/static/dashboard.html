@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<nav>
+<nav class="dashboard-nav">
     <div class="logo">Community<span>Mesh</span></div>
     <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
         <li><a href="sos.html">SOS</a></li>
         <li><a href="mesh.html">Mesh Communication</a></li>
         <li><a href="network-map.html">Network Map</a></li>
@@ -41,48 +41,73 @@
     <div class="dashboard">
         <div class="stat-card">
             <div class="stat-icon">⚠️</div>
-            <h3 id="incidents">0</h3>
+            <h3 id="incidents" class="skeleton skeleton-number" role="status" aria-label="Loading active incidents">&nbsp;</h3>
             <p>Active Incidents</p>
         </div>
         <div class="stat-card">
             <div class="stat-icon">🆘</div>
-            <h3 id="sosCount">0</h3>
+            <h3 id="sosCount" class="skeleton skeleton-number" role="status" aria-label="Loading active SOS requests">&nbsp;</h3>
             <p>Active SOS Requests</p>
         </div>
         <div class="stat-card">
             <div class="stat-icon">📡</div>
-            <h3 id="nodes">0</h3>
+            <h3 id="nodes" class="skeleton skeleton-number" role="status" aria-label="Loading active mesh nodes">&nbsp;</h3>
             <p>Active Mesh Nodes</p>
         </div>
         <div class="stat-card">
             <div class="stat-icon">🚑</div>
-            <h3 id="teamsDeployed">0</h3>
+            <h3 id="teamsDeployed" class="skeleton skeleton-number" role="status" aria-label="Loading deployed teams">&nbsp;</h3>
             <p>Teams Deployed</p>
         </div>
     </div>
 
-    <h2 class="subheading">Active Incidents</h2>
-    <div class="incident-grid" id="dashboardIncidentGrid">
-        <p>Loading incidents...</p>
+    <div class="dashboard-section-heading">
+        <h2 class="subheading">Active Incidents</h2>
+        <a class="dashboard-text-link" href="incidents.html">All incidents</a>
+    </div>
+    <div class="incident-grid" id="dashboardIncidentGrid" aria-busy="true" aria-live="polite">
+        <div class="dashboard-skeleton-card" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+        <div class="dashboard-skeleton-card" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
     </div>
 
-    <h2 class="subheading">Active SOS Requests</h2>
-    <div class="incident-grid" id="dashboardSosGrid" aria-live="polite">
-        <p>Loading SOS requests...</p>
+    <div class="dashboard-section-heading">
+        <h2 class="subheading">Active SOS Requests</h2>
+        <a class="dashboard-text-link" href="sos.html">Open SOS</a>
     </div>
-    <p id="dashboardUpdatedAt" class="profile-note" aria-live="polite"></p>
+    <div class="incident-grid" id="dashboardSosGrid" aria-busy="true" aria-live="polite">
+        <div class="dashboard-skeleton-card" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+        <div class="dashboard-skeleton-card" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+    </div>
 
-    <h2 class="subheading">Rescue Operations</h2>
+    <div class="dashboard-live-row">
+        <p id="dashboardUpdatedAt" class="profile-note" aria-live="polite">Loading live data…</p>
+        <button class="dashboard-refresh" id="dashboardRefreshButton" type="button" onclick="loadDashboard({ notifyOnError: true })">Refresh now</button>
+    </div>
+
+    <div class="dashboard-section-heading">
+        <h2 class="subheading">Rescue Operations</h2>
+        <a class="dashboard-text-link" href="response.html">Manage response</a>
+    </div>
     <div class="progress-container">
-        <div><span>Received</span><strong id="statReceived">0</strong></div>
-        <div><span>Assigned</span><strong id="statAssigned">0</strong></div>
-        <div><span>In Progress</span><strong id="statInProgress">0</strong></div>
-        <div><span>Resolved</span><strong id="statResolved">0</strong></div>
+        <div><span>Received</span><strong id="statReceived" class="skeleton skeleton-number" role="status" aria-label="Loading received requests">&nbsp;</strong></div>
+        <div><span>Assigned</span><strong id="statAssigned" class="skeleton skeleton-number" role="status" aria-label="Loading assigned requests">&nbsp;</strong></div>
+        <div><span>In Progress</span><strong id="statInProgress" class="skeleton skeleton-number" role="status" aria-label="Loading requests in progress">&nbsp;</strong></div>
+        <div><span>Resolved</span><strong id="statResolved" class="skeleton skeleton-number" role="status" aria-label="Loading resolved requests">&nbsp;</strong></div>
     </div>
+
+    <section class="dashboard-actions" id="adminQuickActions" aria-labelledby="dashboardActionsTitle" hidden>
+        <h2 id="dashboardActionsTitle">Quick actions</h2>
+        <div class="dashboard-action-links">
+            <a class="dashboard-action primary" href="sos.html">Send an SOS</a>
+            <a class="dashboard-action" href="incidents.html">Review incidents</a>
+            <a class="dashboard-action" href="response.html">Manage rescue teams</a>
+            <a class="dashboard-action" href="network-map.html">View network map</a>
+        </div>
+    </section>
 </main>
 
 <div id="toast"></div>
 <footer>© 2026 Community Mesh | Disaster Management System</footer>
-<script src="/js/script.js?v=dashboard-live-3"></script>
+<script src="/js/script.js?v=dashboard-live-5"></script>
 </body>
 </html>

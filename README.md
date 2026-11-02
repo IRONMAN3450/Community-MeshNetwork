@@ -37,8 +37,8 @@ mvn spring-boot:run
 
 Open:
 
-- App: http://localhost:8080
-- H2 console is disabled by default. For local-only troubleshooting, set `MESH_H2_CONSOLE_ENABLED=true` before starting and open http://localhost:8080/h2-console. The demo database uses user `sa` with a blank password; never expose the console on a LAN or production network.
+- App: http://localhost:18082
+- H2 console is disabled by default. For local-only troubleshooting, set `MESH_H2_CONSOLE_ENABLED=true` before starting and open http://localhost:18082/h2-console. The demo database uses user `sa` with a blank password; never expose the console on a LAN or production network.
 
 ## Demo accounts
 
@@ -62,22 +62,22 @@ Seeded demo accounts:
 ## Faculty demonstration guide
 
 1. Start the app with demo seeding enabled as above, or use accounts already registered in your database.
-2. Open http://localhost:8080 on a laptop.
+2. Open http://localhost:18082 on a laptop.
 3. Login as `citizen@mesh.local` / `password123` (new signups always receive the Citizen role).
 4. Open **SOS**, select **Medical**, allow location, send SOS.
-5. Open **Dashboard** and show live SOS / incident counts.
+5. Open **Dashboard** at http://localhost:18082 and show live SOS / incident counts.
 6. Login as `responder@mesh.local` / `password123` in another browser/profile.
 7. Open **Rescue Tracking**, register a team if needed, assign a team, then click **Update Status** until resolved.
 8. Open **Mesh Communication** on two browsers and send messages.
 9. Open **Network Map** and show SOS / team / node markers.
-10. Optional LAN demo: create a phone hotspot, connect another device, open `http://<host-ip>:8080`.
+10. Optional LAN demo: create a phone hotspot, connect another device, open `http://<host-ip>:18082`.
 
 ## LAN / hotspot demo
 
 1. Start the server on one machine.
 2. Create a Wi‑Fi hotspot or join the same router network.
 3. Find the host IP (`ipconfig` on Windows).
-4. On phones/laptops open `http://HOST_IP:8080`.
+4. On phones/laptops open `http://HOST_IP:18082`.
 5. Use Mesh Communication to show local real-time messaging.
 
 ## API overview
@@ -108,6 +108,10 @@ Protected write APIs expect header:
 ```text
 X-Auth-Token: <token from login/signup>
 ```
+
+## Initial administrator
+
+To provision the first administrator in the local H2 database, run `scripts/provision-admin.ps1` from the project folder. It creates `admin@communitymesh.local` for Rudra Mishra with a randomly generated one-time password, and prints that password once. Save it and sign in through `login.html`. The script does not enable demo-data seeding or change an existing administrator's password. The administrator can manage incidents, SOS response status, rescue teams and assignments, and network nodes from the dashboard's operations links.
 
 ## Project structure
 

@@ -856,3 +856,52 @@ footer strong {
 .profile-note{font-size:13px;color:#9fb4c2;margin:18px 0}
 .profile-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.profile-actions button{cursor:pointer;border:0}
 @media(max-width:900px){.profile-trigger-label{display:none}.profile-menu{margin-left:auto}.profile-dropdown{right:0}}
+
+/* ================= LIVE DASHBOARD ================= */
+.dashboard-nav ul{display:flex;align-items:center}
+.dashboard-section-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:34px 0 12px}
+.dashboard-section-heading .subheading{margin:0}
+.dashboard-text-link{color:#00e5ff;font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap}
+.dashboard-text-link:hover{text-decoration:underline}
+.dashboard-live-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:6px 0 12px}
+.dashboard-live-row .profile-note{margin:8px 0}
+.dashboard-refresh,.dashboard-error button{padding:9px 14px;border:1px solid rgba(0,229,255,.5);border-radius:8px;background:#0d2a3b;color:#eaf5fb;font-weight:700;cursor:pointer}
+.dashboard-refresh:hover,.dashboard-error button:hover{background:#12405a}
+.dashboard-refresh:disabled{opacity:.6;cursor:wait}
+.dashboard-actions{margin:34px 0;padding:22px;background:rgba(255,255,255,.035);border:1px solid rgba(0,229,255,.18);border-radius:14px}
+.dashboard-actions h2{margin:0 0 14px;font-size:20px}
+.dashboard-action-links{display:flex;flex-wrap:wrap;gap:10px}
+.dashboard-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#eaf5fb;text-decoration:none;font-weight:700}
+.dashboard-action:hover{border-color:#00e5ff;background:rgba(0,229,255,.08)}
+.dashboard-action.primary{border-color:#00e5ff;background:#00c9df;color:#03111d}
+.status-badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:#d6e4ed;font-size:12px;font-weight:700;line-height:1.5}
+.status-received,.status-active{background:rgba(255,179,0,.16);color:#ffd166}
+.status-assigned,.status-in-progress{background:rgba(0,217,255,.14);color:#66eaff}
+.status-resolved,.status-delivered,.status-available,.status-online{background:rgba(0,229,160,.14);color:#63e8bc}
+.status-cancelled,.status-archived,.status-offline{background:rgba(255,255,255,.1);color:#bdc9d1}
+.dashboard-empty,.dashboard-error{grid-column:1/-1;padding:22px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.035);color:#dce8ee}
+.dashboard-empty p,.dashboard-error p{margin:5px 0 10px;color:#a9bdc9}
+.dashboard-empty a{color:#00e5ff;font-weight:700}
+.dashboard-error{border-color:rgba(255,115,115,.4)}
+.dashboard-error strong{color:#ffaaaa}
+.dashboard-skeleton-card{min-height:150px;padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.035)}
+.dashboard-skeleton-card .skeleton{display:block;height:14px;margin:10px 0;border-radius:6px}
+.dashboard-skeleton-card .skeleton:first-child{width:34%;height:18px}
+.dashboard-skeleton-card .skeleton:nth-child(2){width:88%}
+.dashboard-skeleton-card .skeleton:nth-child(3){width:62%}
+.skeleton{background:linear-gradient(100deg,rgba(255,255,255,.05) 25%,rgba(255,255,255,.15) 45%,rgba(255,255,255,.05) 65%);background-size:220% 100%;animation:dashboard-shimmer 1.4s ease-in-out infinite}
+.skeleton-number{width:76px;height:32px;margin:8px auto;border-radius:7px;color:transparent}
+@keyframes dashboard-shimmer{to{background-position-x:-220%}}
+@media(max-width:1000px){
+    .dashboard-nav{flex-wrap:wrap;gap:6px;padding-top:10px;padding-bottom:8px}
+    .dashboard-nav ul{display:flex;order:3;flex:1 0 100%;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding:8px 0 4px;white-space:nowrap}
+    .dashboard-nav ul li{flex:0 0 auto}
+    .dashboard-nav a{font-size:13px}
+}
+@media(max-width:600px){
+    .dashboard-section-heading{align-items:flex-start}
+    .dashboard-live-row{align-items:flex-start;flex-direction:column}
+    .dashboard-action-links{display:grid;grid-template-columns:1fr 1fr}
+    .dashboard-action{font-size:13px;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){.skeleton{animation:none}}

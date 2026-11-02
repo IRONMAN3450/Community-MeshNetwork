@@ -9,6 +9,7 @@ public interface SosAlertRepository extends JpaRepository<SosAlert, Long> {
     List<SosAlert> findByReporterIdOrderByCreatedAtDesc(Long reporterId);
     List<SosAlert> findByStatusNotOrderByCreatedAtDesc(SosStatus status);
     List<SosAlert> findByStatusNotInOrderByCreatedAtDesc(Collection<SosStatus> statuses);
+    List<SosAlert> findTop10ByStatusNotInOrderByCreatedAtDesc(Collection<SosStatus> statuses);
     long countByStatus(SosStatus status);
     long countByStatusNot(SosStatus status);
     long countByStatusNotIn(Collection<SosStatus> statuses);

@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$base = "http://localhost:8080"
+$base = "http://localhost:18082"
 
 function Req($method, $url, $token, $body) {
   $headers = @{ "Content-Type" = "application/json" }
